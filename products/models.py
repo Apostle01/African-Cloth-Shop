@@ -32,6 +32,9 @@ class Product(models.Model):
     description = models.TextField(blank=True, max_length=250, default='', null=True)
     price = models.DecimalField(default=0, max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='uploads/products/', blank=True, null=True, default='images/red-kente.JPG')
+    # Add Sale Stuff
+    is_sale = models.BooleanField(default=False)
+    sale_price = models.DecimalField(default=0, max_digits=10, decimal_places=2)
 
     def __str__(self):
         return self.name
