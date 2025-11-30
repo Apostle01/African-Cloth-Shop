@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from .forms import SignUpForm
+from django import forms
 
 
 
@@ -51,24 +55,22 @@ def logout_user(request):
     logout(request)
     messages.success(request, "You have been logged out.")
     return redirect('login') 
-            
-# def login_user(request):
-#     if request.method == "POST":
-#         username = request.POST.get("username")
-#         password = request.POST.get("password")
 
-#         user = authenticate(request, username=username, password=password)
-
-#         if user is not None:
-#             login(request, user)
-#             messages.success(request, "Login Successful!")
-#             return redirect("/")  # Redirect to homepage
-#         else:
-#             messages.error(request, "Invalid username or password")
-#             return redirect("/login/")
-
-#     return render(request, "login_user.html")
-
-def logout_user(request):
-    logout(request)
-    messages.success(request, ("You have been logged out."))
+def register_user(request):
+    form = SignUpForm()
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            # log in user
+            user = authenticate(username=username, password=password)
+            login(request,user)
+            messages.success(request, ("You are registered."))
+            return redirect('login')
+        else:
+            messages.success(request, ("Sorry! registration not successful."))
+            return redirect('register')  
+    else:
+        return render(request, 'register_user.html', {'form':form})
