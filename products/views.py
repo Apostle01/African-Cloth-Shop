@@ -31,40 +31,43 @@ def about(request):
 def contact(request):
     return render(request, 'contact.html', {})
 
+def login_user(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+          login(request, user)
+          messages.success(request, ("You have been Logged in."))
+          return redirect('home')
+        else:
+          messages.error(request, ("There was an error, try again"))
+          return redirect('login')
+    else:
+        return render(request, 'login_user.html', {})
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, "You have been logged out.")
+    return redirect('login') 
+            
 # def login_user(request):
 #     if request.method == "POST":
 #         username = request.POST.get("username")
 #         password = request.POST.get("password")
 
 #         user = authenticate(request, username=username, password=password)
-        
+
 #         if user is not None:
 #             login(request, user)
-#             messages.success(request, ("You have been Logged in."))
-#             return redirect('home')
+#             messages.success(request, "Login Successful!")
+#             return redirect("/")  # Redirect to homepage
 #         else:
-#             messages.error(request, ("There was an error, try again"))
-#             return redirect('login')
-#     else:
-#         return render(request, 'login_user.html', {})
+#             messages.error(request, "Invalid username or password")
+#             return redirect("/login/")
 
-              # return redirect('home')
-def login_user(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            messages.success(request, "Login Successful!")
-            return redirect("/")  # Redirect to homepage
-        else:
-            messages.error(request, "Invalid username or password")
-            return redirect("/login/")
-
-    return render(request, "login_user.html")
+#     return render(request, "login_user.html")
 
 def logout_user(request):
     logout(request)
