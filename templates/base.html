@@ -1,61 +1,64 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-  <title>{% block title %}African Cloth Haven{% endblock %}</title>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>African Cloth Haven</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+        <script src="https://kit.fontawesome.com/68aa8a6d33.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        {% include 'navbar.html' %}
 
-  <!-- Bootstrap 4 (CDN) -->
-  <link rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-MlJ6oB0q8x+q2b1Qv6j0s6Fqk0nQj6Z2l8u3q3sXc3G3Q6q4Yf3j5Zzv4V4Qf6fK"
-        crossorigin="anonymous">
+        {% block content %}
+        {% endblock %}
 
-  <!-- Your custom stylesheet (local) -->
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-<body class="bg-light">
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'home' %}">African Cloth Haven</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navMain"
-              aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navMain">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' %}">Home</a>
-          </li>
-        </ul>
+<footer class="bg-dark text-white py-4 mt-auto">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Contact</h5>
+        <p>Email: contact@kente haven.com</p>
+        <p>Tel: +233 24 123 4567</p>
+        <div>
+          <a href="https://www.facebook.com/" target="_blank"><i class="fab fa-facebook fa-2x mx-2"></i></a>
+          <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-2x mx-2"></i></a>
+          <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube fa-2x mx-2"></i></a>
+        </div>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <h5>Payments</h5>
+        <p>Supported by Stripe</p>
+        <p>Cards Accepted</p>
+        <a href="https://www.visa.com" target="_blank"><i class="fab fa-cc-visa fa-2x mx-1"></i></a>
+        <a href="https://www.mastercard.com" target="_blank"><i class="fab fa-cc-mastercard fa-2x mx-1"></i></a>
+        <a href="https://www.americanexpress.com" target="_blank"><i class="fab fa-cc-amex fa-2x mx-1"></i></a>
       </div>
     </div>
-  </nav>
+  </div>
+  <div class="container text-center mt-3">
+    <p>&copy; 2025 My_Django_Project</p>
+  </div>
+</footer>
+        
+        {% comment %} <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+        </footer>
 
-  <main class="py-4">
-    <div class="container">
-      {% block content %}{% endblock %}
-    </div>
-  </main>
-
-  <footer class="bg-dark text-light py-3 mt-5">
-    <div class="container text-center">
-      &copy; {{ now|date:'Y' }} African Cloth Haven
-    </div>
-  </footer>
-
-  <!-- jQuery & Bootstrap bundle from CDN (Bootstrap 4) -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-          integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-          crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-LtrjvnR4/Jqs6QJ8fM0q6j5gq6u9Q6k8v9B6e5Q6Y5Z5Q6s7Q6m9Q6T6Q6m9Q6QG"
-          crossorigin="anonymous"></script>
-
-  <!-- Your custom script -->
-  <script src="{% static 'js/scripts.js' %}"></script>
-</body>
-</html>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'js/scripts.js' %}"></script>
+    </body>
+</html> {% endcomment %}

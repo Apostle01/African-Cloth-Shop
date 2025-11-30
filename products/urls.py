@@ -10,8 +10,8 @@ from . import views
 urlpatterns = [
     path('', views.home, name='home'),   # temporary view — we will build page later
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
+    path('login/', views.login_user, name='login'),
+    path('logout/', views.logout_user, name='logout'),
 ]
-
-    
-
-

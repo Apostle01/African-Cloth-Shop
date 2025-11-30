@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+
+  <div class="text-center mb-4">
+    <h2 class="font-weight-bold">Contact Us</h2>
+    <hr class="w-25 mx-auto">
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+
+      <p class="lead text-center">
+        We’re here to help! If you have any questions, need assistance with an order,  
+        or want to share feedback, you can reach us through any of the methods below.
+      </p>
+
+      <div class="card shadow-sm mt-4">
+        <div class="card-body">
+          <p><strong>Email:</strong> support@example.com</p>
+          <p><strong>Phone:</strong> +233 555 123 456</p>
+          <p><strong>Address:</strong> Accra, Ghana</p>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <p class="text-center">
+          Alternatively, send us a message using the form below.
+        </p>
+
+        <form>
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" class="form-control" placeholder="Enter your name">
+          </div>
+          <br></br>
+          <div class="form-group">
+            <label>Your Email</label>
+            <input type="email" class="form-control" placeholder="Enter your email">
+          </div>
+          <br></br>
+          <div class="form-group">
+            <label>Your Message</label>
+            <textarea class="form-control" rows="4" placeholder="Type your message here..."></textarea>
+          </div>
+            <br></br>
+          <button type="submit" class="btn btn-primary btn-block">
+           Send Message
+          </button>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}
