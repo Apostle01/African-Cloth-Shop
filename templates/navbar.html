@@ -17,22 +17,33 @@
                         {% endif %}
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Categories
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'home' %}">All Products</a>
+                                <div class="dropdown-divider"></div>
+
+                                <a class="dropdown-item" href="{% url 'category' 'Woodin' %}">Woodin</a>
+                                <a class="dropdown-item" href="{% url 'category' 'ATL' %}">ATL</a>
+                                <a class="dropdown-item" href="{% url 'category' 'Ghanaian_Wax_Print' %}">Ghanaian Wax Print</a>
+                                <a class="dropdown-item" href="{% url 'category' 'kente' %}">Kente</a>
+                            </div>
                         </li>
-                    </ul>
-                    <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
-                    </form>
-                </div>
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    
+                    <div class="ml-auto">
+                        <form class="form-inline my-2 my-lg-0">
+                            <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark">
+                                <i class="bi-cart-fill mr-1"></i>
+                                Cart
+                                <span class="badge bg-dark text-white ml-1 rounded-pill">0</span>
+                            </a>
+                        </form>
+                    </div>                      
+                </ul>
             </div>
         </nav>
