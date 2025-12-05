@@ -8,6 +8,10 @@ class Cart:
         cart = self.session.get("cart")
         if not cart:
             cart = self.session["cart"] = {}
+
+            if not cart:
+                cart = self.session["cart"] = {}
+        
         self.cart = cart
 
     def add(self, product, quantity=1):
