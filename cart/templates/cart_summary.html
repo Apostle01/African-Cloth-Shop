@@ -1,17 +1,91 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-{% load static %}
-        
-<!-- Header-->
-<header class="bg-dark py-5">
-    <div class="container px-4 px-lg-5 my-5">
+
+<!-- Header -->
+<header class="bg-dark py-4">
+    <div class="container">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Shopping</h1>
-            <p class="lead fw-normal text-white-50 mb-0">View Cart content</p>
+            <h1 class="fw-bolder">Your Cart</h1>
+            <p class="lead text-white-50">Review your selected items</p>
         </div>
     </div>
-</header> 
-</br></br></br></br></br></br></br>
-</br></br></br></br></br></br></br>
+</header>
+
+<div class="container my-5">
+
+    {% if cart_items %}
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Product</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td class="align-middle">{{ item.product.title }}</td>
+
+                        <td>
+                            <img src="{{ item.product.image.url }}" 
+                                 width="90" height="90" 
+                                 class="img-thumbnail">
+                        </td>
+
+                        <td class="align-middle">${{ item.product.price }}</td>
+
+                        <td class="align-middle" style="width: 120px;">
+                            <form action="{% url 'cart_update' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                                <input type="number" name="quantity" 
+                                       min="1" max="20" 
+                                       value="{{ item.quantity }}" 
+                                       class="form-control form-control-sm">
+                        </td>
+
+                        <td class="align-middle">
+                            ${{ item.subtotal }}
+                        </td>
+
+                        <td class="align-middle">
+                                <button class="btn btn-primary btn-sm mb-2">Update</button>
+                            </form>
+
+                            <form action="{% url 'cart_delete' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                                <button class="btn btn-danger btn-sm">Remove</button>
+                            </form>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-end mt-4">
+            <h4>Total: <strong>${{ cart_total }}</strong></h4>
+            <a href="/" class="btn btn-secondary btn-lg mt-3">Continue Shopping</a>
+            <a href="/checkout/" class="btn btn-success btn-lg mt-3">Proceed to Checkout</a>
+        </div>
+
+    {% else %}
+        <div class="text-center py-5">
+            <h3>Your cart is empty</h3>
+            <a href="/" class="btn btn-primary mt-4">Go Shopping</a>
+        </div>
+    {% endif %}
+
+</div>
+
 {% endblock %}
