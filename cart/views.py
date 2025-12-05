@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from .cart import Cart
 from products.models import Product
 from django.http import JsonResponse
@@ -9,6 +9,7 @@ def cart_summary(request):
 
 
 def cart_add(request):
+    # Get the cart object
     cart = Cart(request)
 
     if request.method == "POST":
@@ -19,7 +20,9 @@ def cart_add(request):
 
         product = get_object_or_404(Product, id=product_id)
 
-        cart.add(product=product)
+        quantity = int(request.POST.get("quantity", 1))
+        cart.add(product=product, quantity=quantity)
+
 
         return JsonResponse({
             "success": True,
@@ -27,8 +30,7 @@ def cart_add(request):
             "cart_total": len(cart),
         })
 
-    
-    return JsonResponse({"success": False, "error": "Invalid request"}, status=400)
+        return JsonResponse({"success": False, "error": "Invalid request"}, status=400)
 
 def cart_delete(request):
     if request.method == "POST":

@@ -38,7 +38,7 @@
         {% comment %} </br>ID: {{ product.id }} {% endcomment %}
       {% endif %}
         </br>
-      <form method="post" action="#">
+      {% comment %} <form method="post" action="#"> {% endcomment %}
         {% csrf_token %}
         <div class="form-group">
           <label for="quantity">Quantity</label>
@@ -50,8 +50,8 @@
           Add to Cart
         </button>
         {% comment %} <button class="btn btn-primary">Add to Cart</button> {% endcomment %}
-      </form>
-      </br>
+      {% comment %} </form> {% endcomment %}
+      </br></br>
       <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
     </br></br></br>
     </div>
