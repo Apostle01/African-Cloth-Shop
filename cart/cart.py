@@ -59,9 +59,10 @@ class Cart:
 #     def __init__(self, request):
 #         self.session = request.session
 
-#         #Get the current session key if it exists
-#         cart = self.session.get('session_key')
-
+#        #Get the current session key if it exists
+#         cart = self.session.get("cart")
+#         if not cart:
+#             cart = self.session["cart"] = {}
 #         # If the user is new, no session key! Create one!
 #         if 'session_key' not in request.session:
 #             cart = self.session['session_key'] = {}
@@ -70,9 +71,8 @@ class Cart:
 #         # Make sure cart is available on all pages of site
 #         self.cart = cart
 
-#     def add(self, product):
-#         product_id = str(product_id)
-
+#     def add(self, product, quantity=1):
+#         product_id = str(product.id)
 #         # Logic
 #         if product_id in self.cart:
 #             pass

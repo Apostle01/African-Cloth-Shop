@@ -3,7 +3,7 @@ console.log("scripts.js loaded");
 $(document).on('click', '#add-to-cart-btn', function(e) {
     e.preventDefault();
     
-    let product_id = $(this).val();
+    let product_id = $('#quantity').val();
 
     $.ajax({
         type: "POST",
@@ -15,6 +15,9 @@ $(document).on('click', '#add-to-cart-btn', function(e) {
         },
         success: function (json) {
             console.log("Added to cart:", json);
+
+            // Update cart count badge
+            document.getElementById("cart_quantity").textContent = json.cart_total;
         },
         error: function (xhr, errmsg, err) {
             console.log("AJAX Error:", errmsg);
