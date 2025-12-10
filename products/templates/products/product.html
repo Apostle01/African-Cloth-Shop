@@ -38,19 +38,27 @@
         {% comment %} </br>ID: {{ product.id }} {% endcomment %}
       {% endif %}
         </br>
-      {% comment %} <form method="post" action="#"> {% endcomment %}
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="quantity">Quantity</label>
-          <input id="quantity" name="quantity" type="number" min="1" value="1" class="form-control w-25">
-        </div>
+      
         </br>
-        
-        <button id="add-to-cart-btn" value="{{ product.id }}" class="btn btn-primary">
-          Add to Cart
-        </button>
-        {% comment %} <button class="btn btn-primary">Add to Cart</button> {% endcomment %}
-      {% comment %} </form> {% endcomment %}
+        <form method="POST" action="{% url 'cart_add' %}">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+
+            <label><strong>Quantity</strong></label>
+            <input type="number" name="quantity" value="1" min="1" class="form-control w-25">
+
+            <button type="submit" class="btn btn-primary btn-lg mt-3">
+                Add to Cart
+            </button>
+        </form>
+
+        {% comment %} <form action="{% url 'cart_add' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="btn btn-primary">Add to Cart</button>
+        </form> {% endcomment %}
+
       </br></br>
       <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
     </br></br></br>
