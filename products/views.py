@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm
+from .forms import SignUpForm, UpdateUserForm, UpdatePasswordForm
 from django import forms
 
 
@@ -91,3 +91,48 @@ def register_user(request):
             return redirect('register')  
     else:
         return render(request, 'register_user.html', {'form':form})
+
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id=request.user.id)
+        user_form = UpdateUserForm(request.POST or None, instance=current_user)
+
+        if user_form.is_valid():
+            user_form.save()
+
+            login(request, current_user)
+            messages.success(request, "User is Upodated!!")
+            return redirect('home')
+        return render(request, "update_user.html", {'user_form':user_form})
+    else:
+        messages.success(request, "You must login to access page!!")
+        return redirect('home')
+
+def update_password(request):
+    if request.user.is_authenticated:
+        current_user = request.user
+
+        # ----------------------
+        # If form is submitted
+        # ----------------------
+        if request.method == 'POST':
+            form = UpdatePasswordForm(current_user, request.POST)
+
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Password updated successfully!")
+                return redirect('home')
+            else:
+                messages.error(request, "Please correct the errors below.")
+                return render(request, "update_password.html", {'form': form})
+
+        # ----------------------
+        # If GET request
+        # ----------------------
+        else:
+            form = UpdatePasswordForm(current_user)
+            return render(request, "update_password.html", {'form': form})
+
+    else:
+        messages.error(request, "You must login to access page!!")
+        return redirect('login')
