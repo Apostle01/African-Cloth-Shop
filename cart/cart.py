@@ -23,7 +23,6 @@ class Cart:
                 "price": price,
                 "quantity": quantity,
                 "image": product.image.url if product.image else "",
-                # "total_price": price * quantity,
             }
         else:
             self.cart[product_id]["quantity"] += quantity
