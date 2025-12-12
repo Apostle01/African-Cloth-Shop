@@ -4,8 +4,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .forms import SignUpForm, UpdateUserForm, UpdatePasswordForm
+from .forms import SignUpForm, UpdateUserForm, UserInfoForm, UpdatePasswordForm
 from django import forms
+from .models import Profile
+
 
 
 def home(request):
@@ -74,22 +76,26 @@ def logout_user(request):
     return redirect('login') 
 
 def register_user(request):
-    form = SignUpForm()
+    
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
+
             username = form.cleaned_data['username']
             password = form.cleaned_data['password1']
+
             # log in user
             user = authenticate(username=username, password=password)
             login(request,user)
-            messages.success(request, ("You are registered."))
-            return redirect('login')
+
+            messages.success(request, ("Username  created, fill out your info below."))
+            return redirect('update_info')
         else:
-            messages.success(request, ("Sorry! registration not successful."))
-            return redirect('register')  
+            messages.error(request, ("Sorry! registration not successful."))
+            return render(request, 'register_user.html', {'form':form})  
     else:
+        form = SignUpForm()
         return render(request, 'register_user.html', {'form':form})
 
 def update_user(request):
@@ -104,6 +110,21 @@ def update_user(request):
             messages.success(request, "User is Upodated!!")
             return redirect('home')
         return render(request, "update_user.html", {'user_form':user_form})
+    else:
+        messages.success(request, "You must login to access page!!")
+        return redirect('home')
+
+def update_info(request):
+    if request.user.is_authenticated:
+        current_user = Profile.objects.get(user_id=request.user.id)
+        form = UserInfoForm(request.POST or None, instance=current_user)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, "User Info is Updated!!")
+            return redirect('home')
+        return render(request, "update_info.html", {'form':form})
     else:
         messages.success(request, "You must login to access page!!")
         return redirect('home')
