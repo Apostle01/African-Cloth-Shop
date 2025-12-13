@@ -30,33 +30,17 @@ def cart_summary(request):
     return render(request, "cart/cart_summary.html", context)
 
 def cart_add(request):
-    cart = Cart(request)
-
     if request.method == "POST":
         product_id = request.POST.get("product_id")
-        product = get_object_or_404(Product, id=product_id)
 
-        cart.add(product=product)
-
-        return redirect("cart_summary")
-
+        if not product_id:
+            return redirect("cart_summary")
+        product = get_object_or_404(Product, id=int(product_id))
+        
+        cart = Cart(request)
+        cart.add(product)
+        
     return redirect("cart_summary")
-# def cart_add(request):
-#     if request.method == "POST":
-#         product_id = request.POST.get("product_id")
-#         if not product_id:
-#             return HttpResponseBadRequest("Missing product id")
-
-#         product = get_object_or_404(Product, id=product_id)
-#         quantity = int(request.POST.get("quantity", 1))
-
-#         cart = Cart(request)
-#         cart.add(product, quantity)
-
-#         return redirect("cart:cart_summary")
-
-#     return HttpResponseBadRequest("Invalid request")
-
 
 def cart_update(request):
     if request.method == "POST":

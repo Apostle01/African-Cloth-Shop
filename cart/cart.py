@@ -1,8 +1,9 @@
-from products.models import Product
+from products.models import Product, Profile
 
 class Cart:
     def __init__(self, request):
         self.session = request.session
+        self.request = request
         cart = self.session.get("cart")
 
         if not cart:
@@ -12,26 +13,58 @@ class Cart:
 
     def add(self, product, quantity=1):
         product_id = str(product.id)
-
-        # Price as a float for calculations
         price = float(product.price)
 
         if product_id not in self.cart:
             self.cart[product_id] = {
-                "id": product.id,
-                "name": product.name,
-                "price": price,
                 "quantity": quantity,
-                "image": product.image.url if product.image else "",
+                "price": price,
             }
         else:
             self.cart[product_id]["quantity"] += quantity
-            self.cart[product_id]["total_price"] = (
-                self.cart[product_id]["quantity"] * price
-            )
 
         self.save()
 
+    def save(self):
+        self.session.modified = True
+
+        if self.request.user.is_authenticated:
+            Profile.objects.filter(
+                user_id=self.request.user.id
+            ).update(old_cart=self.cart)
+
+    # def add(self, product, quantity=1):
+    #     product_id = str(product.id)
+
+    #     # Price as a float for calculations
+    #     price = float(product.price)
+
+    #     if product_id not in self.cart:
+    #         self.cart[product_id] = {
+    #             "quantity": quantity,
+    #             "price": str(product.price),
+    #             # "id": product.id,
+    #             # "name": product.name,
+    #             # "price": price,
+    #             # "quantity": quantity,
+    #             # "image": product.image.url if product.image else "",
+    #         }
+    #     else:
+    #         self.cart[product_id]["quantity"] += quantity
+    #         self.cart[product_id]["price"] = (
+    #             self.cart[product_id]["quantity"] * price
+    #         )
+
+    #     self.save()
+
+    # def save(self):
+    #     self.session.modified = True
+    #     if self.request.user.is_authenticated:
+    #         current_user = Profile.objects.filter(user_id=self.request.user.id)
+    #         Bob = str(self.cart)
+    #         Bob = Bob.replace("\'", "\"")
+    #         current_user.update(old_cart=str(Bob))
+            
     def update(self, product, quantity):
         product_id = str(product.id)
 
