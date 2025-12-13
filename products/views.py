@@ -7,7 +7,8 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm, UpdateUserForm, UserInfoForm, UpdatePasswordForm
 from django import forms
 from .models import Profile
-
+# from django.db.models import Q
+from products.models import Product   
 
 
 def home(request):
@@ -157,3 +158,46 @@ def update_password(request):
     else:
         messages.error(request, "You must login to access page!!")
         return redirect('login')
+
+def search(request):
+    if request.method == "POST":
+        query = request.POST.get('searched', '').strip()
+
+        # If user submits an empty search
+        if query == "":
+            messages.error(request, "Please enter a search term.")
+            return render(request, "search.html", {})
+
+        # Search products
+        results = Product.objects.filter(category__name__icontains=query)
+
+        # No results found
+        if not results.exists():
+            messages.error(request, "No products found. Try another search term.")
+            return render(request, "search.html", {"query": query})
+
+        # Return page with results
+        return render(request, "search.html", {
+            "query": query,
+            "results": results,
+        })
+
+    return render(request, "search.html", {})
+
+
+# def search(request):
+#     # Determine if they filled out the form
+#     if request.method =="POST":
+#         searched = request.POST.get('searched', '')
+
+#         # Query The Products DB Model
+#         searched = Product.objects.filter(name__icontains=searched)
+#         # Test for null
+#         if not searched:
+#             messages.success(request, "The product does not exist. Try another one!")
+#             return render(request, 'search.html', {})
+
+#         else:
+#             return render(request, "search.html", {'searched':searched })
+#     else:
+#         return render(request, "search.html", {})
