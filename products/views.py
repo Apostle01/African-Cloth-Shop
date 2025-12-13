@@ -7,8 +7,11 @@ from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm, UpdateUserForm, UserInfoForm, UpdatePasswordForm
 from django import forms
 from .models import Profile
-# from django.db.models import Q
-from products.models import Product   
+from django.db.models import Q
+from .models import Product
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+# from .utils import restore_cart   
 
 
 def home(request):
@@ -63,6 +66,7 @@ def login_user(request):
         
         if user is not None:
           login(request, user)
+          restore_cart(request, user)
           messages.success(request, ("You have been Logged in."))
           return redirect('home')
         else:
@@ -161,43 +165,42 @@ def update_password(request):
 
 def search(request):
     if request.method == "POST":
-        query = request.POST.get('searched', '').strip()
+        query = request.POST.get("searched", "").strip()
 
-        # If user submits an empty search
-        if query == "":
+        if not query:
             messages.error(request, "Please enter a search term.")
-            return render(request, "search.html", {})
+            return render(request, "search.html")
 
-        # Search products
-        results = Product.objects.filter(category__name__icontains=query)
+        results = Product.objects.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query) |
+            Q(category__name__icontains=query)
+        ).distinct()
 
-        # No results found
         if not results.exists():
-            messages.error(request, "No products found. Try another search term.")
+            messages.info(request, "No products found.")
             return render(request, "search.html", {"query": query})
 
-        # Return page with results
         return render(request, "search.html", {
             "query": query,
-            "results": results,
+            "results": results
         })
 
-    return render(request, "search.html", {})
+    return render(request, "search.html")
 
+def restore_cart(request, user):
+    """
+    Restore cart from Profile.old_cart into session after login
+    """
+    try:
+        profile = Profile.objects.get(user=user)
+        if profile.old_cart:
+            request.session["cart"] = profile.old_cart
+            request.session.modified = True
+    except Profile.DoesNotExist:
+        pass
 
-# def search(request):
-#     # Determine if they filled out the form
-#     if request.method =="POST":
-#         searched = request.POST.get('searched', '')
-
-#         # Query The Products DB Model
-#         searched = Product.objects.filter(name__icontains=searched)
-#         # Test for null
-#         if not searched:
-#             messages.success(request, "The product does not exist. Try another one!")
-#             return render(request, 'search.html', {})
-
-#         else:
-#             return render(request, "search.html", {'searched':searched })
-#     else:
-#         return render(request, "search.html", {})
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
