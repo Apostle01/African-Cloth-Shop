@@ -44,24 +44,24 @@
 
                     <form action="#" method="POST">
                         {% csrf_token %}
-
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" required>
-                        </div>
-
-                        <div class="form-group mt-3">
-                            <label>Email</label>
-                            <input type="email" class="form-control" required>
-                        </div>
-
-                        <div class="form-group mt-3">
-                            <label>Address</label>
-                            <textarea class="form-control" rows="3" required></textarea>
-                        </div>
-
-                        <button type="submit" class="btn btn-success btn-block mt-4">Place Order</button>
+                        {{ form.as_p }}
+                        {% comment %} <button type="submit" class="btn btn-success btn-block mt-4">
+                            Continue to Payment
+                        </button> {% endcomment %}
                     </form>
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5>Shipping Address</h5>
+                </div>
+                <div class="card-body">
+                    <form action="#" method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-success btn-block mt-4">
+                            Continue to Payment
+                        </button>
+                    </form>
+
 
                 </div>
             </div>
