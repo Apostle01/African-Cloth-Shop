@@ -11,6 +11,18 @@ class Cart:
 
         self.cart = cart
 
+    def __iter__(self):
+        product_ids = self.cart.keys()
+        products = Product.objects.filter(id__in=product_ids)
+
+        for product in products:
+            self.cart[str(product.id)]['product'] = product
+
+        for item in self.cart.values():
+            item['price'] = float(item['price'])
+            item['total_price'] = item['price'] * item['quantity']
+            yield item
+
     def add(self, product, quantity=1):
         product_id = str(product.id)
         price = float(product.price)

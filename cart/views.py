@@ -68,7 +68,7 @@ def cart_delete(request):
             return HttpResponseBadRequest("Invalid data")
 
         product = get_object_or_404(Product, id=product_id)
-
+ 
         cart = Cart(request)
         cart.delete(product)
 

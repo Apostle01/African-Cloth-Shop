@@ -1,17 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, Category
+from .models import Product, Category, Profile
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm, UpdateUserForm, UserInfoForm, UpdatePasswordForm
+from payment.forms import ShippingForm
+from payment.models import ShippingAddress
 from django import forms
-from .models import Profile
+import json 
 from django.db.models import Q
 from .models import Product
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-# from .utils import restore_cart   
+# from .utils import restore_cart 
+from cart.cart import Cart 
 
 
 def home(request):
@@ -121,17 +124,25 @@ def update_user(request):
 
 def update_info(request):
     if request.user.is_authenticated:
+        # Get Current User
         current_user = Profile.objects.get(user_id=request.user.id)
+        # Get or Create Shipping info
+        shipping_user, created = ShippingAddress.objects.get_or_create(user=request.user)
+        
+        # Get original User Form
         form = UserInfoForm(request.POST or None, instance=current_user)
-
-        if form.is_valid():
-            form.save()
+        # Get User's Shipping Form
+        shipping_form = ShippingForm(request.POST or None, instance=shipping_user)
+        if request.method == "POST":
+            if form.is_valid() and shipping_form.is_valid():
+                form.save()
+                shipping_form.save()
 
             messages.success(request, "User Info is Updated!!")
             return redirect('home')
-        return render(request, "update_info.html", {'form':form})
+        return render(request, "update_info.html", {'form':form, 'shipping_form':shipping_form})
     else:
-        messages.success(request, "You must login to access page!!")
+        messages.error(request, "You must login to access page!!")
         return redirect('home')
 
 def update_password(request):
@@ -150,7 +161,7 @@ def update_password(request):
                 return redirect('home')
             else:
                 messages.error(request, "Please correct the errors below.")
-                return render(request, "update_password.html", {'form': form})
+                return render(request, "update_password.html", {'form': form, 'shipping_form':shipping_form})
 
         # ----------------------
         # If GET request
