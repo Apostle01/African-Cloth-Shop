@@ -30,7 +30,7 @@ def checkout(request):
             shipping.user = request.user
             shipping.save()
 
-            return redirect("payment")
+            return redirect("payment:payment")
     else:
         form = ShippingForm(instance=shipping_address)
 
@@ -40,7 +40,7 @@ def checkout(request):
         'cart_total': cart.get_total(),
     }
 
-    return render(request, 'payment/checkout.html', context)
+    return render(request, "payment/checkout.html", context)
 
 
 @login_required
@@ -66,23 +66,8 @@ def payment(request):
         "site_url": settings.SITE_URL,
         "cart": cart,
         "total": cart.get_total(),
+        "site_url": settings.SITE_URL,  
     })
-
-# def secure_payment(request):
-#     if request.method == "POST":
-#         return redirect("payment_success")
-
-#     intent = stripe.PaymentIntent.create(
-#         amount=5000,  # amount in cents
-#         currency="usd",
-#         automatic_payment_methods={"enabled": True},
-#     )
-
-#     return render(request, "payment/secure_payment.html", {
-#         "client_secret": intent.client_secret,
-#         "stripe_public_key": settings.STRIPE_PUBLIC_KEY,
-#     })
-
 
 @login_required
 def payment_success(request):
@@ -92,13 +77,13 @@ def payment_success(request):
 
     if not payment_intent:
         messages.error(request, "Payment not verified.")
-        return redirect("payment")
+        return redirect("payment:payment")
 
     intent = stripe.PaymentIntent.retrieve(payment_intent)
 
     if intent.status != "succeeded":
         messages.error(request, "Payment failed.")
-        return redirect("payment")
+        return redirect("payment:payment")
 
     order = Order.objects.create(
         user=request.user,
@@ -119,4 +104,4 @@ def payment_success(request):
     cart.clear()
     messages.success(request, "Payment successful!")
 
-    return render(request, "payment/payment_success.html", {"order": order})
+    return redirect('products:all_products')

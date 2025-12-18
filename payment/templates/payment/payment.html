@@ -11,7 +11,7 @@
         <form id="payment-form">
             {% csrf_token %}
 
-            <!-- stripe renders card / wallet UI here -->
+            <!-- Stripe renders card / wallet UI here -->
             <div id="payment-element" style="min-height: 120px;" class="mb-3"></div>
 
             <button id="submit" class="btn btn-success btn-block mt-4">
@@ -19,8 +19,6 @@
             </button>
             <div id="error-message" class="text-danger mt-3"></div>
         </form>
-
-        
     </div>
 </div>
 
@@ -42,7 +40,7 @@ form.addEventListener("submit", async (e) => {
     const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-            return_url: "{{ site_url }}% url 'payment_success' %}",
+            return_url: "{{ site_url }}{% url 'payment:payment_success' %}",
         },
     });
 

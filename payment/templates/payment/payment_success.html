@@ -1,1 +1,13 @@
-<h1>Payment Successfull</h1>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <h2 class="text-success mb-4">Payment Successful 🎉</h2>
+
+    <p>Thank you for your order. Your payment has been processed successfully.</p>
+
+    <a href="{% url 'products:product_list' %}" class="btn btn-primary mt-4">
+        Continue Shopping
+    </a>
+</div>
+{% endblock %}
