@@ -75,27 +75,3 @@ def cart_delete(request):
         return redirect("cart_summary")
 
     return HttpResponseBadRequest("Invalid request")
-
-
-def checkout(request):
-    cart = Cart(request)
-    items = []
-
-    for key, value in cart.cart.items():
-        product_id = int(key)
-        product = get_object_or_404(Product, id=product_id)
-
-        quantity = value.get("quantity", 1)
-        price = float(value.get("price", product.price))
-        subtotal = price * quantity
-
-        items.append({
-            "product": product,
-            "quantity": quantity,
-            "subtotal": subtotal,
-        })
-
-    return render(request, "checkout.html", {
-        "cart_items": items,
-        "cart_total": cart.get_total(),
-    })

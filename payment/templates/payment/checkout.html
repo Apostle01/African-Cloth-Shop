@@ -42,7 +42,7 @@
                 </div>
                 <div class="card-body">
 
-                    <form action="#" method="POST">
+                    <form action="{% url 'payment:checkout' %}" method="POST">
                         {% csrf_token %}
                         {{ form.as_p }}
                         {% comment %} <button type="submit" class="btn btn-success btn-block mt-4">
@@ -54,7 +54,7 @@
                     <h5>Shipping Address</h5>
                 </div>
                 <div class="card-body">
-                    <form action="#" method="POST">
+                    <form action="{% url 'payment:checkout' %}" method="POST">
                         {% csrf_token %}
                         {{ form.as_p }}
                         <button type="submit" class="btn btn-success btn-block mt-4">

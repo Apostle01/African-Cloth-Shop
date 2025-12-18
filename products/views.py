@@ -215,3 +215,13 @@ def restore_cart(request, user):
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
+def all_products(request):
+    products = Product.objects.all()
+    return render(request, "products/product.html", {
+        "products": products
+    })
+
+# def product_list(request):
+#     products = Product.objects.all()
+#     return render(request, "products/product_list.html", {"products": products})
