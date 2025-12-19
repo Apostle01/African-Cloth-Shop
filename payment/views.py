@@ -8,11 +8,12 @@ from cart.cart import Cart
 from .models import Order, OrderItem, ShippingAddress
 from .forms import ShippingForm
 from products.models import Product
+from django.core.mail import send_mail
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-@login_required
+# @login_required
 def checkout(request):
     cart = Cart(request)
 
@@ -77,19 +78,22 @@ def payment_success(request):
 
     if not payment_intent:
         messages.error(request, "Payment not verified.")
-        return redirect("payment:payment")
+        return redirect("cart_summary")
 
     intent = stripe.PaymentIntent.retrieve(payment_intent)
 
     if intent.status != "succeeded":
         messages.error(request, "Payment failed.")
-        return redirect("payment:payment")
+        return redirect("cart_summary")
 
     order = Order.objects.create(
         user=request.user,
+        full_name=request.user.get_full_name() or request.user.username,
+        email=request.user.email,
+        shipping_address="Saved during checkout",
         total_price=cart.get_total(),
-        paid=True,
-        stripe_pid=intent.id
+        stripe_pid=payment_intent, # intent.id 
+        paid=True
     )
 
     for product_id, item in cart.cart.items():
@@ -97,11 +101,18 @@ def payment_success(request):
         OrderItem.objects.create(
             order=order,
             product=product,
-            price=item['price'],
-            quantity=item['quantity']
+            quantity=item["quantity"],
+            price=item["price"]
         )
 
     cart.clear()
-    messages.success(request, "Payment successful!")
+    messages.success(request, "Payment successful! Order placed.")
+    return render(request, "payment/payment_success.html", {"order": order})
 
-    return redirect('home')
+    send_mail(
+        subject="Order Confirmation – Kente Haven",
+        message=f"Thank you for your order #{order.id}. Total: £{order.total_price}",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[order.email],
+        fail_silently=True,
+    )
