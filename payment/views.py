@@ -104,4 +104,4 @@ def payment_success(request):
     cart.clear()
     messages.success(request, "Payment successful!")
 
-    return redirect('products:all_products')
+    return redirect('home')
