@@ -55,7 +55,11 @@ TEMPLATES = [
 }, 
 ] 
 
-WSGI_APPLICATION = 'shop.wsgi.application' 
+WSGI_APPLICATION = 'shop.wsgi.application'
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FROM_EMAIL = "orders@kentehaven.com"
+
 
 # Database # https://docs.djangoproject.com/en/5.1/ref/settings/#databases 
 
