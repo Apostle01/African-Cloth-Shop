@@ -214,7 +214,7 @@ def restore_cart(request, user):
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        Profile.objects.get_or_create(user=instance)
 
 def all_products(request):
     products = Product.objects.all()
