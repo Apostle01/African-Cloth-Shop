@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <h2 class="text-success mb-4">My Orders 🎉</h2>
+
+{% for order in orders %}
+  <p>
+    Order #{{ order.id }} — £{{ order.total_price }} — {{ order.created_at }}
+  </p>
+{% empty %}
+  <p>No orders yet.</p>
+{% endfor %}
+</br></br>
+{% endblock %}

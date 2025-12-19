@@ -1,4 +1,8 @@
 import stripe
+import json
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -116,3 +120,19 @@ def payment_success(request):
         recipient_list=[order.email],
         fail_silently=True,
     )
+
+@login_required
+def order_history(request):
+    orders = Order.objects.filter(user=request.user).order_by("-created_at")
+    return render(request, "payment/order_history.html", {"orders": orders})
+
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    event = json.loads(payload)
+
+    if event["type"] == "payment_intent.succeeded":
+        intent = event["data"]["object"]
+        Order.objects.filter(stripe_pid=intent["id"]).update(paid=True)
+
+    return HttpResponse(status=200)
