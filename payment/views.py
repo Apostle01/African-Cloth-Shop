@@ -2,6 +2,7 @@ import stripe
 import json
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db import models
 
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
@@ -91,9 +92,9 @@ def payment_success(request):
         return redirect("cart_summary")
 
     order = Order.objects.create(
-        user=request.user,
+        user=request.user if request.user.is_authenticated else None,
         full_name=request.user.get_full_name() or request.user.username,
-        email=request.user.email,
+        email=models.EmailField(max_length=250),
         shipping_address="Saved during checkout",
         total_price=cart.get_total(),
         stripe_pid=payment_intent, # intent.id 
@@ -111,8 +112,6 @@ def payment_success(request):
 
     cart.clear()
     messages.success(request, "Payment successful! Order placed.")
-    return render(request, "payment/payment_success.html", {"order": order})
-
     send_mail(
         subject="Order Confirmation – Kente Haven",
         message=f"Thank you for your order #{order.id}. Total: £{order.total_price}",
@@ -120,6 +119,7 @@ def payment_success(request):
         recipient_list=[order.email],
         fail_silently=True,
     )
+    return render(request, "payment/payment_success.html", {"order": order})
 
 @login_required
 def order_history(request):

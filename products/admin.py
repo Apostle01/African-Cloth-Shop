@@ -25,3 +25,7 @@ admin.site.unregister(User)
 
 # Re-Register the new way
 admin.site.register(User, UserAdmin)
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ("name", "price", "stock")
+    list_editable = ("stock",)

@@ -63,7 +63,11 @@ class Product(models.Model):
     # Add Sale Stuff
     is_sale = models.BooleanField(default=False)
     sale_price = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+    stock = models.PositiveIntegerField(default=0)
 
+    def in_stock(self):
+        return self.stock > 0
+        
     def __str__(self):
         return self.name
 
