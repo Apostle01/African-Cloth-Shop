@@ -1,4 +1,6 @@
 ﻿# 🧵 African-Cloth-Shop
+# https://apostle01.github.io/African-Cloth-Shop/
+# https://github.com/Apostle01/African-Cloth-Shop.git
 
 A **Django-powered e-commerce platform** for selling authentic African cloth and fashion products.  
 The project supports product management, shopping cart, checkout, payments, and order management with room for future scalability.

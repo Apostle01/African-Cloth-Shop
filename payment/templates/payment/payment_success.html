@@ -6,6 +6,12 @@
 
     <p>Thank you for your order. Your payment has been processed successfully.</p>
 
+    {% if order.user %}
+    <p>You can view your order in your account.</p>
+    {% else %}
+    <p>Order confirmation sent to {{ order.email }}</p>
+    {% endif %}
+
     <a href="{% url 'home' %}" class="btn btn-primary mt-4">
         Continue Shopping
     </a>
