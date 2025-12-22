@@ -103,6 +103,14 @@ def payment_success(request):
 
     for product_id, item in cart.cart.items():
         product = get_object_or_404(Product, id=product_id)
+
+        if product.stock < item["quantity"]:
+            messages.error(request, f"{product.name} is out of stock.")
+            return redirect("cart_summary")
+
+        product.stock -= item["quantity"]
+        product.save()
+
         OrderItem.objects.create(
             order=order,
             product=product,
@@ -130,6 +138,17 @@ def order_history(request):
 def stripe_webhook(request):
     payload = request.body
     event = json.loads(payload)
+    sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload,
+            sig_header,
+            settings.STRIPE_WEBHOOK_SECRET
+        )
+    except Exception:
+        return HttpResponse(status=400)
+
 
     if event["type"] == "payment_intent.succeeded":
         intent = event["data"]["object"]
