@@ -114,6 +114,7 @@ def payment_success(request):
         OrderItem.objects.create(
             order=order,
             product=product,
+            user=request.user,
             quantity=item["quantity"],
             price=item["price"]
         )
@@ -134,7 +135,7 @@ def order_detail(request, order_id):
     return render(request, "payment/order_detail.html", {
         "order": order
     })
-    
+
 @login_required
 def order_history(request):
     orders = Order.objects.filter(user=request.user).order_by("-created_at")

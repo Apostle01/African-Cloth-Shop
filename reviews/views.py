@@ -36,8 +36,8 @@ def add_review(request, product_id):
             product=product,
             user=request.user,
             defaults={
-                "rating": rating,
-                "comment": comment,
+                "rating": request.POST["rating"],
+                "comment": request.POST["comment"],
             }
         )
 
