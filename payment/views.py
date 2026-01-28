@@ -116,7 +116,7 @@ def payment_success(request):
             product=product,
             user=request.user,
             quantity=item["quantity"],
-            price=item["price"]
+            price=product.price,
         )
 
     cart.clear()

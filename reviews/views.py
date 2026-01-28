@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from products.models import Product
 from payment.models import OrderItem
 from .models import ProductReview
+from .forms import ProductReviewForm
 
 
 @login_required
@@ -24,10 +25,29 @@ def add_review(request, product_id):
         )
         return redirect("product_detail", product.id)
 
-    # ----------------------------------
-    # Continue normal review flow
-    # ----------------------------------
+    # Prevent duplicate review
+    if ProductReview.objects.filter(product=product, usr=request.user).exist():
+        messages.warning(request, "You have already reviewed this product")
+        return redirect("product_detail", product.id)
 
+    if request.method == "POST":
+        form = ProductReview(request.POST)
+        if form.is_valid():
+            review =form.save(commit=False)
+            review.product = product
+            review.user = request.user
+            review.save()
+            messages.success(request, "Thank you for your review")
+            return redirect("product_detail", product.id)
+
+        else:
+            form = ProductReviewForm()
+        
+        return render(request, "review/add_review.html", {
+            "form": form,
+            "product": product,
+        })
+        
     if request.method == "POST":
         rating = request.POST.get("rating")
         comment = request.POST.get("comment")
