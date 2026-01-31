@@ -104,7 +104,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 DEFAULT_FROM_EMAIL = "orders@kentehaven.com"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"

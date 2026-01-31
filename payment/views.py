@@ -17,7 +17,6 @@ from django.core.mail import send_mail
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-
 # @login_required
 def checkout(request):
     cart = Cart(request)
@@ -92,14 +91,15 @@ def payment_success(request):
         return redirect("cart_summary")
 
     order = Order.objects.create(
-        user=request.user if request.user.is_authenticated else None,
+        user=request.user,
         full_name=request.user.get_full_name() or request.user.username,
-        email=models.EmailField(max_length=250),
+        email=request.user.email,
         shipping_address="Saved during checkout",
         total_price=cart.get_total(),
-        stripe_pid=payment_intent, # intent.id 
+        stripe_pid=payment_intent,
         paid=True
     )
+
 
     for product_id, item in cart.cart.items():
         product = get_object_or_404(Product, id=product_id)
