@@ -58,21 +58,23 @@ def payment(request):
 
     amount = int(cart.get_total() * 100)  # Stripe uses cents
 
+    # DEBUG: confirm which key Django is using
+    print("Stripe key loaded:", settings.STRIPE_SECRET_KEY)
+
     intent = stripe.PaymentIntent.create(
         amount=amount,
         currency="usd",
         automatic_payment_methods={"enabled": True},
-        metadata={"user_id": request.user.id}
+        metadata={"user_id": request.user.id},
     )
 
     return render(request, "payment/payment.html", {
         "stripe_public_key": settings.STRIPE_PUBLIC_KEY,
         "client_secret": intent.client_secret,
-        "site_url": settings.SITE_URL,
         "cart": cart,
         "total": cart.get_total(),
-        "site_url": settings.SITE_URL,  
     })
+
 
 @login_required
 def payment_success(request):
