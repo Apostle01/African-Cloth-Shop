@@ -1,3 +1,4 @@
+# import os
 import stripe
 import json
 from django.http import HttpResponse
@@ -15,7 +16,7 @@ from .forms import ShippingForm
 from products.models import Product
 from django.core.mail import send_mail
 
-stripe.api_key = settings.STRIPE_SECRET_KEY
+# stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 # @login_required
@@ -57,7 +58,13 @@ def payment(request):
         messages.error(request, "Your cart is empty")
         return redirect("cart_summary")
 
+    stripe.api_key = (settings.STRIPE_SECRET_KEY or "").strip()
+
     amount = int(cart.get_total() * 100)  # Stripe uses cents
+
+    # print("ENV STRIPE_SECRET_KEY =", os.getenv("STRIPE_SECRET_KEY"))
+    # print("SETTINGS STRIPE_SECRET_KEY =", settings.STRIPE_SECRET_KEY)
+    # print("STRIPE api_key =", stripe.api_key)
 
     intent = stripe.PaymentIntent.create(
         amount=amount,
@@ -71,8 +78,7 @@ def payment(request):
         "client_secret": intent.client_secret,
         "site_url": settings.SITE_URL,
         "cart": cart,
-        "total": cart.get_total(),
-        "site_url": settings.SITE_URL,  
+        "total": cart.get_total(),  
     })
 
 @login_required
