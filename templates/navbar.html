@@ -2,11 +2,11 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
                 <a class="navbar-brand" href="{% url 'home' %}">Kente Haven</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'search' %}">Search</a></li>
+                        {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li> {% endcomment %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'search' %}">Search</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
 
@@ -74,3 +74,100 @@
                 </ul>
             </div>
         </nav> 
+
+{% comment %} <!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light" role="navigation" aria-label="Primary navigation">
+  <div class="container px-4 px-lg-5">
+    <a class="navbar-brand" href="/">
+
+    <button class="navbar-toggler" type="button"
+            data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" aria-hidden="true"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <!-- LEFT MENU -->
+      <ul class="navbar-nav mr-auto ml-lg-4">
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'search' %}">Search</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">About</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+        </li>
+
+        {% if user.is_authenticated %}
+          <!-- PROFILE DROPDOWN -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="profileDropdown"
+               role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+              Profile
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="profileDropdown">
+              <a class="dropdown-item" href="{% url 'update_user' %}">User Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="{% url 'update_info' %}">User Info</a>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">Register</a>
+          </li>
+        {% endif %}
+
+        <!-- CATEGORIES DROPDOWN -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown"
+             role="button" data-toggle="dropdown"
+             aria-haspopup="menu" aria-expanded="false">
+            Categories
+          </a>
+
+          <div class="dropdown-menu" aria-labelledby="categoriesDropdown" role="menu">
+            <a class="dropdown-item" href="{% url 'home' %}">All Products</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'category' 'Woodin' %}">Woodin</a>
+            <a class="dropdown-item" href="{% url 'category' 'ATL' %}">ATL</a>
+            <a class="dropdown-item" href="{% url 'category' 'Ghanaian_Wax_Print' %}">Ghanaian Wax Print</a>
+            <a class="dropdown-item" href="{% url 'category' 'kente' %}">Kente</a>
+          </div>
+        </li>
+      </ul>
+
+      <!-- RIGHT MENU (CART) -->
+      <div class="ml-auto">
+        <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark" aria-label="View cart">
+          <i class="bi bi-cart-fill" aria-hidden="true"></i>
+          <span class="ml-1">Cart</span>
+          <span class="badge badge-dark ml-1 rounded-pill">
+            {{ request.session.cart|length }}
+          </span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</nav>
+ {% endcomment %}

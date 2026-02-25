@@ -33,14 +33,6 @@ class Cart:
             self.cart[product_id]["quantity"] += quantity
 
         self.save()
-
-    # def save(self):
-    #     self.session.modified = True
-
-    #     if self.request.user.is_authenticated:
-    #         Profile.objects.filter(
-    #             user_id=self.request.user.id
-    #         ).update(old_cart=self.cart)
           
     def update(self, product, quantity):
         product_id = str(product.id)
@@ -87,9 +79,6 @@ class Cart:
 
     def get_items(self):
         return self.cart.values()
-
-    # def save(self):
-    #     self.session.modified = True
 
     def __iter__(self):
         product_ids = self.cart.keys()

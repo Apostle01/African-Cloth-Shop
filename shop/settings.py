@@ -7,6 +7,8 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'. 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# load_dotenv(BASE_DIR / ".env")
+
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-key")
 # SECURITY WARNING: don't run with debug turned on in production! 
 DEBUG = os.getenv("DEBUG") == "True"
@@ -14,6 +16,9 @@ DEBUG = os.getenv("DEBUG") == "True"
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 # Stripe
+# STRIPE_PUBLIC_KEY = (os.getenv("STRIPE_PUBLIC_KEY") or "").strip()
+# STRIPE_SECRET_KEY = (os.getenv("STRIPE_SECRET_KEY") or "").strip()
+# STRIPE_WEBHOOK_SECRET = (os.getenv("STRIPE_WEBHOOK_SECRET") or "").strip()
 STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 

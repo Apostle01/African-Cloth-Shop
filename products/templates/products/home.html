@@ -33,18 +33,18 @@
 
             <!-- Product image-->
             {% if product.image %}
-                <img class="card-img-top" src="{{ product.image.url}}" alt="..." />
+                <img class="card-img-top" src="{{ product.image.url}}" alt="{{ product.name }} Bonwire Kente">
             {% else %}
-                <img class="card-img-top" src="{% static 'images/no-image.png' %}" alt="No Image Available">
+                <img class="card-img-top" src="{% static 'images/no-image.png' %}" alt="No product image available">
             {% endif %}
 
             <!-- Product details-->
             <div class="card-body p-4">
                 <div class="text-center">
             <!-- Product name-->
-            <h5 class="fw-bolder">{{ product.name }}</h5>
+            <h2 class="h5 fw-bolder mb-1">{{ product.name }}</h2>
                <div class="d-flex justify-content-center small
-               text-warning mb-2">
+               bg-warning mb-2">
                <div class="bi-star-fill"></div>
                 &nbsp;&nbsp;Sale!&nbsp;&nbsp;
                 <div class="bi-star-fill"></div>
@@ -72,7 +72,7 @@
                         <div class="card h-100">
                             <!-- Product image-->
                              {% if product.image %}
-                                <img class="card-img-top" src="{{ product.image.url}}" alt="..." />
+                                <img class="card-img-top" src="{{ product.image.url}}" alt="{{ product.name }}" - Traditional Kente />
                             {% else %}
                                 <img class="card-img-top" src="{% static 'images/no-image.png' %}" alt="No Image Available">
                             {% endif %}
@@ -81,7 +81,7 @@
                             <div class="card-body p-4">
                                 <div class="text-center">
                                     <!-- Product name-->
-                                    <h5 class="fw-bolder">{{ product.name }}</h5>
+                                    <h2 class="h5 fw-bolder mb-1">{{ product.name }}</h2>
                                     <!-- Product price-->
                                     ${{ product.price }}
                                     <br/>
@@ -103,3 +103,200 @@
             </div>
         </section>
     {% endblock %}
+
+{% comment %} {% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- Header -->
+<header class="bg-dark py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white">
+      <h1 class="display-4 font-weight-bold">Shop in style</h1>
+      <p class="lead text-white-50 mb-0">Authentic Ghanaian Kente and Fabrics</p>
+    </div>
+  </div>
+</header>
+
+<!-- Products Section -->
+<section class="py-5">
+  <div class="container px-4 px-lg-5 mt-5">
+    <div class="row">
+
+      {% for product in products %}
+        <div class="col-6 col-md-4 col-xl-3 mb-5">
+          <div class="card h-100">
+
+            {% if product.is_sale %}
+              <!-- Sale badge (Bootstrap 4) -->
+              <span class="badge badge-light text-dark" style="position:absolute; top:.5rem; right:.5rem; z-index:1;">
+                Sale
+              </span>
+            {% endif %}
+
+            <!-- Product image -->
+            {% if product.image %}
+              <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+              <img class="card-img-top" src="{% static 'images/no-image.png' %}" alt="No image available">
+            {% endif %}
+
+            <!-- Product details -->
+            <div class="card-body p-4">
+              <div class="text-center">
+
+                <!-- Product name -->
+                <h5 class="font-weight-bold mb-2">{{ product.name }}</h5>
+
+                <!-- Optional: Accessible star rating (static example) -->
+                <div class="rating-stars mb-2">
+                  <span class="sr-only">Rated 3 out of 5 stars</span>
+                  <i class="bi bi-star-fill" aria-hidden="true"></i>
+                  <i class="bi bi-star-fill" aria-hidden="true"></i>
+                  <i class="bi bi-star-fill" aria-hidden="true"></i>
+                </div>
+
+                <!-- Price -->
+                {% if product.is_sale %}
+                  <div class="mb-2">
+                    <span class="text-muted"><del>${{ product.price }}</del></span>
+                    <span class="font-weight-bold ml-2">${{ product.sale_price }}</span>
+                  </div>
+                {% else %}
+                  <div class="mb-2 font-weight-bold">${{ product.price }}</div>
+                {% endif %}
+
+                <!-- Description -->
+                <p class="text-muted small mb-0">{{ product.description }}</p>
+
+              </div>
+            </div>
+
+            <!-- Product actions -->
+            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+              <div class="text-center">
+                <a class="btn btn-outline-dark mt-auto" href="{% url 'product_detail' product.id %}">
+                  View Product
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      {% empty %}
+        <div class="col-12">
+          <p class="text-center text-muted">No products found.</p>
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% comment %} {% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+
+
+        
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Shop in style</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Authentic Ghanaian Kente and Fabrics </p>
+        </div>
+    </div>
+</header> 
+
+<!-- Section-->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+                
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    
+    {% for product in products %}
+        {% if product.is_sale %}
+                            
+        <div class="col mb-5">
+            <div class="card h-100">
+            <!-- Sale badge-->
+            <div class="badge.bg-light.text-black.position-absolute"
+                style="top: 0.5rem; right: 0.5rem">Sale</div>
+
+            <!-- Product image-->
+            {% if product.image %}
+                <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }} - Kente Cloth Design">
+            {% else %}
+                <img class="card-img-top" src="{% static 'images/no-image.png' %}" alt="Product image not available">
+            {% endif %}
+
+            <!-- Product details-->
+            <div class="card-body p-4">
+                <div class="text-center">
+            <!-- Product name-->
+            <h2 class="fw-bolder">{{ product.name }}</h2>
+               <div class="d-flex justify-content-center small
+               .rating-stars mb-2">
+               <i class="bi-star-fill"></i>
+                &nbsp;&nbsp;Sale!&nbsp;&nbsp;
+                <i class="bi-star-fill"></i>
+                &nbsp;&nbsp;Sale!&nbsp;&nbsp;
+                <i class="bi-star-fill"></i>
+            </div>
+
+                <!-- Product price-->
+                <strike>
+                ${{ product.price }}
+                </strike>
+                &nbsp;
+                ${{ product.sale_price }}
+                <br/>
+                {{ product.description }}
+            </div>
+            </div>
+
+                           <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product_detail'  product.id %}">View Product</a></div>
+                            </div>
+                        </div>
+                    </div>
+                            {% else %}
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            {% if product.image %}
+                                <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }} - Traditional Kente Fabric">
+                            {% else %}
+                                <img class="card-img-top" src="{% static 'images/no-image.png' %}" alt="No Image Available for this product">
+                            {% endif %}
+
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h3 class="fw-bolder">{{ product.name }}</h3>
+                                    <!-- Product price-->
+                                    ${{ product.price }}
+                                    <br/>
+                                    {{ product.description }}
+                                </div>
+                            </div>
+
+                           <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'product_detail' product.id %}">View Product</a></div>
+                            </div>
+                        </div>
+                    </div>
+                        {% endif %}
+                    {% endfor %}                
+            </div>
+        </section>
+{% endblock %} {% endcomment %} 

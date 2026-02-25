@@ -26,12 +26,12 @@ def add_review(request, product_id):
         return redirect("product_detail", product.id)
 
     # Prevent duplicate review
-    if ProductReview.objects.filter(product=product, usr=request.user).exist():
+    if ProductReview.objects.filter(product=product, user=request.user).exists():
         messages.warning(request, "You have already reviewed this product")
         return redirect("product_detail", product.id)
 
     if request.method == "POST":
-        form = ProductReview(request.POST)
+        form = ProductReviewForm(request.POST)
         if form.is_valid():
             review =form.save(commit=False)
             review.product = product

@@ -10,6 +10,6 @@ class ProductReviewForm(forms.ModelForm):
             "comment": forms.Textarea(attrs={
                 "class": "form-control",
                 "rows": 4,
-                "placeholder": "Please leave a good/bad review of your esperience please?"
+                "placeholder": "Please leave a good/bad review of your experience please?"
             }),
         }
