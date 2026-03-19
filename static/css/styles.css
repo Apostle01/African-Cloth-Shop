@@ -1,281 +1,49 @@
-/* ------------------------------
-   Global Styles
------------------------------- */
+/* Kente Haven - Custom styles (Bootstrap 4) */
 
-/* Ensure custom styles override Bootstrap */
-:root { --custom-priority: 1; }
-
+/* Page base */
 html, body {
-    height: 100% !important;
-    margin: 0 !important;
-    font-family: 'Fira Sans', sans-serif !important;
-    color: #333 !important;
-    line-height: 1.6 !important;
-    display: flex !important;
-    flex-direction: column !important;
+  height: 100%;
 }
-
-/* Background */
 body {
-    background: url('static/images/red-kente.JPG') no-repeat center center fixed !important;
-    background-size: 60% !important;
-    background-attachment: fixed !important;
+  color: #212529;
+  background: #ffffff;
 }
 
-body { border: 5px solid red; }
-
-/* Utility Font */
-.logo-font {
-    font-family: 'Bowlby One SC', sans-serif !important;
-    font-size: 1.5em !important;
-    text-transform: uppercase !important;
+/* Header hero */
+header.bg-dark {
+  background-color: #212529 !important;
 }
 
-/* Brand Logo */
-.brand-logo {
-    height: 50px !important;
-    width: auto !important;
+/* Product cards */
+.card {
+  height: 100%;
+}
+.card-img-top {
+  height: 220px;
+  object-fit: cover;
 }
 
-/* ------------------------------
-   Delivery Banner
------------------------------- */
-.delivery-banner {
-    background: rgba(0, 0, 0, 0.7) !important;
-    color: #fff !important;
-    text-align: center !important;
-    padding: 10px !important;
-    font-weight: bold !important;
+/* Buttons */
+.btn-outline-dark {
+  border-width: 2px;
 }
 
-/* ===== HERO SECTION ===== */
-.hero-section {
-    background: url('static/images/red-kente.JPG') no-repeat center center/cover !important;
-    height: 65vh !important; /* slightly reduced for balance */
-    position: relative !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-align: center !important;
-    color: #fff !important;
-    overflow: hidden !important;
-    border-bottom: 3px solid rgba(0, 0, 0, 0.2) !important;
-}
-
-.hero-section::before {
-    content: "" !important;
-    position: absolute !important;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.55) !important;
-    z-index: 1 !important;
-}
-
-.hero-section .container {
-    position: relative !important;
-    z-index: 2 !important;
-    max-width: 700px !important;
-}
-
-.hero-section h1 {
-    font-family: 'Bowlby One SC', sans-serif !important;
-    font-size: 2.8rem !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    margin-bottom: 10px !important;
-}
-
-.hero-section p {
-    font-size: 1.15rem !important;
-    font-weight: 300 !important;
-    margin-bottom: 20px !important;
-}
-
-.shop-now-button {
-    background: #000 !important;
-    color: #fff !important;
-    padding: 10px 28px !important;
-    border-radius: 30px !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
-}
-
-.shop-now-button:hover {
-    background: #444 !important;
-    transform: scale(1.05) !important;
-}
-
-.flex-container {
-    display: flex;
-    flex-direction: column;
-}
-
-/* Responsive hero adjustment */
-@media (max-width: 768px) {
-    .hero-section {
-        height: 60vh !important;
-        padding: 20px !important;
-        background-size: cover !important;
-    }
-
-    .hero-section h1 {
-        font-size: 2rem !important;
-    }
-
-    .hero-section p {
-        font-size: 1rem !important;
-    }
-
-    .shop-now-button {
-        padding: 8px 20px !important;
-        font-size: 0.9rem !important;
-    }
-}
-
-/* ------------------------------
-   Main Layout
------------------------------- */
-main {
-    flex: 1 0 auto !important;
-    padding-bottom: 2rem !important;
-}
-
-.rating-stars {
-  color: #8a6d00 !important; /* dark gold */
-  opacity: 1 !important;
-}
-
-/* Make sale / crossed-out price readable */
-.price-old,
-strike {
-  color: #6c757d !important; /* readable gray */
-  opacity: 1 !important;
-}
-
-.price-new {
-  color: #212529 !important;
-  font-weight: 600;
-}
-
-/* ===== FOOTER STYLING ===== */
-footer {
-    background-color: #212529 !important;
-    color: #f8f9fa !important;
-    padding: 25px 0 15px !important; font-size: 00.9rem;
-    font-family: 'Roboto', sans-serif !important;
-    border-top: 2px solid #343a40 !important;
-    margin-top: auto !important;
-}
-
-footer h5 {
-    font-size: 1rem !important;
-    font-weight: 600 !important;
-    margin-bottom: 8px !important;
-    color: #ffffff !important;
-}
-
-footer p {
-    font-size: 0.9rem !important;
-    margin-bottom: 6px !important;
-    color: #d6d6d6 !important;
-}
-
-/* Social and payment icons */
-footer i {
-    color: #f8f9fa !important;
-    transition: color 0.3s ease, transform 0.2s ease !important;
-}
-
-footer i:hover {
-    color: #ffc107 !important;
-    transform: scale(1.1) !important;
-}
-
-/* Reduce space between icon sets and sections */
-footer .col-md-6 {
-    margin-bottom: 10px !important;
-}
-
-/* Footer bottom text */
-footer .container.text-center p {
-    font-size: 0.85rem !important;
-    color: #bdbdbd !important;
-    margin-top: 5px !important;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    footer {
-        text-align: center !important;
-    }
-    footer .text-md-end {
-        text-align: center !important;
-    }
-}
-
-/* ------------------------------
-   Toast Notifications
------------------------------- */
-.custom-toast {
-    position: relative !important;
-    max-width: 400px !important;
-    margin: 0 auto 1rem auto !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
-    border-radius: 6px !important;
-    overflow: hidden !important;
-}
-
-.toast-capper {
-    height: 5px !important;
-}
-
-.arrow-up {
-    width: 0 !important;
-    height: 0 !important;
-    border-left: 10px solid transparent !important;
-    border-right: 10px solid transparent !important;
-    margin-left: 1rem !important;
-}
-
-.arrow-danger { border-bottom: 10px solid #dc3545 !important; }
-.arrow-warning { border-bottom: 10px solid #ffc107 !important; }
-.arrow-success { border-bottom: 10px solid #28a745 !important; }
-.arrow-info { border-bottom: 10px solid #17a2b8 !important; }
-
-.toast-header {
-    font-weight: 600 !important;
-    border-bottom: 1px solid #f0f0f0 !important;
-}
-
-.toast-body {
-    background: #fff !important;
-    padding: 1rem !important;
-}
-
-/* ------------------------------
-   Responsive Adjustments
------------------------------- */
-@media (max-width: 768px) {
-    .hero-section {
-        height: 60vh !important;
-        background-size: cover !important;
-    }
-
-    .logo-font {
-        font-size: 1.2em !important;
-    }
-
-    .shop-now-button {
-        padding: 8px 16px !important;
-    }
-}
-
-/* Keep your site font consistent even if an extension injects inline font-family */
-.navbar, .navbar *,
-footer, footer *,
-.card, .card * {
+/* Navbar: keep links readable */
+.navbar, .navbar * {
   font-family: Arial, sans-serif !important;
 }
+
+.navbar-light .navbar-nav .nav-link {
+  color: #212529 !important;
+  opacity: 1 !important;
+}
+
+/* Cart badge: force contrast */
+.badge.badge-dark {
+  background-color: #212529 !important;
+  color: #fff !important;
+}
+
+footer.bg-dark { 
+  background-color: #212529 !important;
+  color: #fff !important;}

@@ -2,7 +2,9 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
                 <a class="navbar-brand" href="{% url 'home' %}">Kente Haven</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li> {% endcomment %}
@@ -24,9 +26,9 @@
                                 <div class="dropdown-divider"></div>
 
                                 <a class="dropdown-item" href="{% url 'update_info' %}">User Info</a>
-                                {% comment %} <a class="dropdown-item" href="{% url 'category' 'ATL' %}">ATL</a>
+                                <a class="dropdown-item" href="{% url 'category' 'ATL' %}">ATL</a>
                                 <a class="dropdown-item" href="{% url 'category' 'Ghanaian_Wax_Print' %}">Ghanaian Wax Print</a>
-                                <a class="dropdown-item" href="{% url 'category' 'kente' %}">Kente</a> {% endcomment %}
+                                <a class="dropdown-item" href="{% url 'category' 'kente' %}">Kente</a>
                             </div>
                         </li>
 
@@ -53,22 +55,16 @@
                             </div>
                         </li>
 
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav mr-auto mb-2 ml-lg-0">
                     
                     <div class="ml-auto">
                         <form class="form-inline my-2 my-lg-0">
                             <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark">
                                 <i class="bi bi-cart-fill"></i> Cart
-                                <span class="badge bg-dark text-white ms-1 rounded-pill">
+                                <span class="badge bg-dark text-white ml-1 rounded-pill">
                                     {{ request.session.cart|length }}
                                 </span>
                             </a>
-
-                            {% comment %} <a href="{% url 'cart:cart_summary' %}" class="btn btn-outline-dark">
-                                <i class="bi-cart-fill mr-1"></i>
-                                Cart
-                                <span class="badge bg-dark text-white ml-1 rounded-pill" id="cart_quantity">{{ cart|length }}</span>
-                            </a> {% endcomment %}
                         </form>
                     </div>                      
                 </ul>
