@@ -28,6 +28,9 @@ class Cart:
             self.cart[product_id] = {
                 "quantity": quantity,
                 "price": price,
+                "product_id": product.id,
+                "name": product.name,
+                "image": product.image.url if product.image else "",
             }
         else:
             self.cart[product_id]["quantity"] += quantity
@@ -78,7 +81,15 @@ class Cart:
         return sum(item["quantity"] for item in self.cart.values())
 
     def get_items(self):
-        return self.cart.values()
+        items = []
+        for product_id, item in self.cart.items():
+            product = Product.objects.get(id=product_id)
+            items.append({
+                'product': product,
+                'quantity': item['quantity'],
+                'subtotal': product.price * item['quantity']
+            })
+        return items
 
     def __iter__(self):
         product_ids = self.cart.keys()

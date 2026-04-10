@@ -41,14 +41,42 @@ def checkout(request):
     else:
         form = ShippingForm(instance=shipping_address)
 
+     # FIX: Properly get cart items with product details
+    cart_items = []
+    for item in cart:
+        # Assuming cart contains items with 'product' and 'quantity'
+        if hasattr(item, 'product') and hasattr(item, 'quantity'):
+            cart_items.append({
+                'product': item.product,
+                'quantity': item.quantity,
+                'subtotal': item.product.price * item.quantity
+            })
+        # Alternative: if cart is a dictionary
+        elif isinstance(item, dict) and 'product' in item:
+            cart_items.append(item)
+    
+    # If cart.get_items() exists and returns the right structure, use it directly
+    # Otherwise, use cart_items above
+    cart_items_data = cart.get_items() if hasattr(cart, "get_items") else cart_items
+    
     context = {
         'form': form,
-        'cart_items': cart,
+        'cart_items': cart.get_items() if hasattr(cart, "get_items")else cart,
         'cart_total': cart.get_total(),
     }
+    if request.user.is_authenticated:
+            # Get Current User
+            current_user = request.user
+            # Get or Create Shipping info
+            shipping_user, created = ShippingAddress.objects.get_or_create(user=request.user)
 
+            # Checkout as logged in
+            shipping_form = ShippingForm(request.POST or None, instance=shipping_user)
+            return render(request, "payment/checkout.html", context)
+    else:
+            # Checkout as guest
+            shipping_form = ShippingForm(request.POST or None)
     return render(request, "payment/checkout.html", context)
-
 
 @login_required
 def payment(request):
