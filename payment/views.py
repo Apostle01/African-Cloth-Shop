@@ -16,7 +16,7 @@ from .forms import ShippingForm
 from products.models import Product
 from django.core.mail import send_mail
 
-# stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 # @login_required
@@ -41,7 +41,7 @@ def checkout(request):
     else:
         form = ShippingForm(instance=shipping_address)
 
-     # FIX: Properly get cart items with product details
+    # FIX: Properly get cart items with product details
     cart_items = []
     for item in cart:
         # Assuming cart contains items with 'product' and 'quantity'
@@ -86,13 +86,9 @@ def payment(request):
         messages.error(request, "Your cart is empty")
         return redirect("cart_summary")
 
-    stripe.api_key = (settings.STRIPE_SECRET_KEY or "").strip()
-
+    # stripe.api_key = (settings.STRIPE_SECRET_KEY or "").strip()
+    stripe.api_key = settings.STRIPE_SECRET_KEY
     amount = int(cart.get_total() * 100)  # Stripe uses cents
-
-    # print("ENV STRIPE_SECRET_KEY =", os.getenv("STRIPE_SECRET_KEY"))
-    # print("SETTINGS STRIPE_SECRET_KEY =", settings.STRIPE_SECRET_KEY)
-    # print("STRIPE api_key =", stripe.api_key)
 
     intent = stripe.PaymentIntent.create(
         amount=amount,
@@ -102,7 +98,7 @@ def payment(request):
     )
 
     return render(request, "payment/payment.html", {
-        "stripe_public_key": settings.STRIPE_PUBLIC_KEY,
+        "stripe_publishable_key": settings.STRIPE_PUBLISHABLE_KEY,
         "client_secret": intent.client_secret,
         "site_url": settings.SITE_URL,
         "cart": cart,

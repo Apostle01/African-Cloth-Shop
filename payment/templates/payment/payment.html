@@ -23,7 +23,7 @@
 </div>
 
 <script>
-const stripe = Stripe("{{ stripe_public_key }}");
+const stripe = Stripe("{{ stripe_publishable_key }}");
 
 const elements = stripe.elements({
     clientSecret: "{{ client_secret }}"

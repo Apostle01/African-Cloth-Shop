@@ -34,7 +34,7 @@ header.bg-dark {
 }
 
 .navbar-light .navbar-nav .nav-link {
-  color: #212529 !important;
+  color: #212529 !important; /* This might need adjustment if you use a dark navbar */
   opacity: 1 !important;
 }
 
@@ -44,6 +44,39 @@ header.bg-dark {
   color: #fff !important;
 }
 
-footer.bg-dark { 
-  background-color: #212529 !important;
-  color: #fff !important;}
+/* --- ADDED IMPORTANT STYLES FOR FORM RESPONSIVENESS --- */
+/* Ensure form controls are responsive and do not overstretch */
+.form-control {
+    display: block;
+    width: 100%; /* Take full width of its parent */
+    max-width: 100%; /* Prevent exceeding parent width */
+    padding: 0.375rem 0.75rem; /* Standard padding */
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    box-sizing: border-box; /* Crucial for preventing overflow */
+}
+
+/* Ensure parent containers are not forcing overflow */
+.col-md-6, .billing-info-section, .shipping-info-section {
+    overflow-x: hidden; /* Hide horizontal scrollbars if content overflows */
+}
+
+/* --- ADJUSTMENTS FOR DARK NAVBAR --- */
+/* If you are using a dark navbar (like bg-dark), you'll need to ensure text is visible */
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-brand {
+    color: #ffffff !important; /* White text for dark navbar */
+}
+
+.form-control {
+  /* ... other properties ... */
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+}

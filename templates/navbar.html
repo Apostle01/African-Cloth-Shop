@@ -55,39 +55,22 @@
                             </div>
                         </li>
 
-            <!-- Right-aligned cart -->
-            {% comment %} <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    {# Using Bootstrap 4 classes for cart badge #}
-                    <a class="nav-link text-white" href="{% url 'cart_summary' %}">
-                        <i class="bi bi-cart-fill me-1"></i> Cart
-                        {# Assuming request.session.cart is available and contains cart items #}
-                        {% with total_items=request.session.cart|length %}
-                            <span class="badge bg-warning text-dark rounded-pill">{{ total_items }}</span>
-                        {% endwith %}
-                    </a>
-                </li>
-            </ul> {% endcomment %}
-                    <ul class="navbar-nav ml-auto mb-2 ">
-                    
-                    <div class="ml-auto mr-3">
-                        <form class="form-inline my-2 my-lg-0">
-                            {% comment %} <a href="{% url 'cart_summary' %}" class="btn btn-outline-dark">
-                                <i class="bi bi-cart-fill me-1"></i> Cart
-                                {% with total_items=request.session.cart|length %}
-                            <span class="badge bg-warning text-dark rounded-pill">{{ total_items }}</span>
-                                {% endwith %}
-                            </a> {% endcomment %}
+            
+                        <ul class="navbar-nav ml-auto mb-2 ">
+                        
+                        <div class="ml-auto mr-3">
+                          <form class="form-inline my-2 my-lg-0">
+                            
                             <div class="ml-auto pr-3">
-                <a href="{% url 'cart_summary' %}" class="btn btn-outline-light cart-btn">
-                    <i class="bi bi-cart-fill"></i> Cart
-                    {% with total_items=request.session.cart|length %}
-                        <span class="badge bg-warning text-dark rounded-pill cart-badge">
-                            {{ total_items }}
-                        </span>
-                    {% endwith %}
-                </a>
-            </div>
+                              <a href="{% url 'cart_summary' %}" class="btn btn-outline-light cart-btn">
+                                  <i class="bi bi-cart-fill"></i> Cart
+                                  {% with total_items=request.session.cart|length %}
+                                      <span class="badge bg-warning text-dark rounded-pill cart-badge">
+                                          {{ total_items }}
+                                      </span>
+                                  {% endwith %}
+                              </a>
+                          </div>
                         </form>
                     </div>                      
                 </ul> 

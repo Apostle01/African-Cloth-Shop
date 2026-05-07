@@ -1,70 +1,116 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block content %}
 <div class="container py-5">
 
     <h2 class="mb-4">Checkout</h2>
 
     <div class="row">
-
-        <!-- Cart Summary -->
+        <!-- ORDER Summary -->
         <div class="col-md-6 mb-4">
-            <div class="card">
+            <div class="card shadow-sm">
                 <div class="card-header bg-dark text-white">
                     <h3>Your Order Summary</h3>
                 </div>
                 <div class="card-body">
                     {% if cart_items %}
+                        
                         <ul class="list-group">
-                            {% for item in cart_items %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{ item.product.name }} (x{{ item.quantity }})
-                                    <span>${{ item.total_price }}</span>
-                                </li>
-                            {% endfor %}
-                        </ul>
+    {% for item in cart_items %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
 
+            <!-- LEFT: IMAGE + NAME -->
+            <div class="d-flex align-items-center">
+
+                <!-- ✅ PRODUCT IMAGE -->
+                {% if item.image %}
+                    <img src="{{ item.image }}" 
+                         alt="{{ item.name }}" 
+                         class="img-thumbnail mr-3"
+                         style="width: 60px; height: 60px; object-fit: cover;">
+                {% else %}
+                    <img src="{% static 'images/no-image.png' %}" 
+                         alt="No image" 
+                         class="img-thumbnail mr-3"
+                         style="width: 60px; height: 60px; object-fit: cover;">
+                {% endif %}
+
+                <!-- NAME + QUANTITY -->
+                <div>
+                    <div>
+                        {% if item.product %}
+                            {{ item.product.name }}
+                        {% else %}
+                            {{ item.name }}
+                        {% endif %}
+                    </div>
+
+                    <small class="text-muted">(x{{ item.quantity }})</small>
+                </div>
+            </div>
+
+            <!-- RIGHT: SUBTOTAL -->
+            <span class="font-weight-bold">
+                ${{ item.subtotal|floatformat:2 }}
+            </span>
+
+        </li>
+    {% endfor %}
+</ul>
+
+                        <!-- Total -->
                         <div class="mt-4 text-right">
-                            <h4>Total: <strong>${{ cart_total }}</strong></h4>
+                            <h4>Total: <strong>${{ cart_total|floatformat:2 }}</strong></h4>
                         </div>
+                        
                     {% else %}
                         <p>Your cart is empty.</p>
                     {% endif %}
                 </div>
             </div>
-        </div>
+        </div>         
 
-        <!-- Billing Information -->
+        <!-- ================= BILLING + SHIPPING ================= -->
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-dark text-white">
-                    <h5>Billing Information</h5>
-                </div>
-                <div class="card-body">
 
-                    <form action="{% url 'payment:checkout' %}" method="POST">
-                        {% csrf_token %}
+            <!-- ✅ SINGLE FORM ONLY -->
+            <form action="{% url 'payment:checkout' %}" method="POST">
+                {% csrf_token %}
+
+                <!-- Billing -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="mb-0">Billing Information</h5>
+                    </div>
+
+                    <div class="card-body">
                         {{ form.as_p }}
-                        {% comment %} <button type="submit" class="btn btn-success btn-block mt-4">
-                            Continue to Payment
-                        </button> {% endcomment %}
-                    </form>
-            <div class="card">
-                <div class="card-header bg-dark text-white">
-                    <h6>Shipping Address</h6>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form action="{% url 'payment:checkout' %}" method="POST">
-                        {% csrf_token %}
+
+                <!-- Shipping (optional separate form later) -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h6 class="mb-0">Shipping Address</h6>
+                    </div>
+
+                    <div class="card-body">
+                        <!-- If you later create shipping_form, replace below -->
                         {{ form.as_p }}
-                        <button type="submit" class="btn btn-success btn-block mt-4">
-                            Continue to Payment
-                        </button>
-                    </form>
-
-
+                    </div>
                 </div>
-            </div>
+
+                <!-- ✅ BUTTON RIGHT-ALIGNED -->
+                <div class="text-right">
+                    <button type="submit" class="btn btn-success px-4">
+                        Continue to Payment
+                    </button>
+                </div>
+
+            </form>
+
         </div>
 
     </div>

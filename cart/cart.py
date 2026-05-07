@@ -20,6 +20,7 @@ class Cart:
 
         self.cart = cart
 
+    #========ADD============
     def add(self, product, quantity=1):
         product_id = str(product.id)
         price = float(product.price)
@@ -33,20 +34,22 @@ class Cart:
                 "image": product.image.url if product.image else "",
             }
         else:
-            self.cart[product_id]["quantity"] += quantity
+            self.cart[product_id]["quantity"] += int(quantity)
 
         self.save()
-          
+
+    #========= UPDATE ===========      
     def update(self, product, quantity):
         product_id = str(product.id)
 
         if product_id in self.cart:
             price = float(product.price)
-            self.cart[product_id]["quantity"] = quantity
+            self.cart[product_id]["quantity"] = int(quantity)
             self.cart[product_id]["total_price"] = price * quantity
 
         self.save()
 
+    #======= DELETE =========
     def delete(self, product):
         product_id = str(product.id)
 
@@ -55,11 +58,13 @@ class Cart:
 
         self.save()
 
+    #========= CLEAR ===========
     def clear(self):
         """Remove cart from session"""
         self.session['cart'] = {}
         self.session.modified = True
 
+    #========== SAVE ===========
     def save(self):
         self.session["cart"] = self.cart
         self.session.modified = True
@@ -69,36 +74,58 @@ class Cart:
                 user=self.request.user
             ).update(old_cart=self.cart)
     
+    #============ TOTAL =========
     def get_total(self):
         total = 0
         for item in self.cart.values():
-            price = float(item.get("price", 0))
-            qty = int(item.get("quantity", 0))
-            total += price * qty
+           total += float(item["price"]) * int(item["quantity"])
         return total
 
+    #========= LENGTH =========
     def __len__(self):
         return sum(item["quantity"] for item in self.cart.values())
 
+    #========= ITEMS FOR TEMPLATE =========
     def get_items(self):
         items = []
+
         for product_id, item in self.cart.items():
-            product = Product.objects.get(id=product_id)
-            items.append({
-                'product': product,
-                'quantity': item['quantity'],
-                'subtotal': product.price * item['quantity']
-            })
+
+            try:
+                # Get fresh product from DB
+                product = Product.objects.get(id=product_id)
+
+                # Safe quantity
+                quantity = int(item.get("quantity", 1))
+
+                # Fresh price from database
+                price = float(product.price)
+
+                # Correct subtotal
+                subtotal = price * quantity
+
+                # Correct image path
+                image_url = ""
+
+                if product.image:
+                    image_url = product.image.url
+
+                # Append cleaned item
+                items.append({
+                    "product": product,
+                    "name": product.name,
+                    "price": price,
+                    "quantity": quantity,
+                    "image": image_url,
+                    "subtotal": subtotal,
+                })
+
+            except Product.DoesNotExist:
+                continue
+
         return items
 
+    #====== ITERATOR ========
     def __iter__(self):
-        product_ids = self.cart.keys()
-        products = Product.objects.filter(id__in=product_ids)
-
-        for product in products:
-            self.cart[str(product.id)]['product'] = product
-
-        for item in self.cart.values():
-            item['price'] = float(item['price'])
-            item['total_price'] = item['price'] * item['quantity']
+        for item in self.get_items():
             yield item

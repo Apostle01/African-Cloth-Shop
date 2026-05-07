@@ -2,28 +2,36 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'. 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# load_dotenv(BASE_DIR / ".env")
+load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-key")
+
 # SECURITY WARNING: don't run with debug turned on in production! 
-DEBUG = os.getenv("DEBUG") == "True"
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
-# Stripe
-# STRIPE_PUBLIC_KEY = (os.getenv("STRIPE_PUBLIC_KEY") or "").strip()
-# STRIPE_SECRET_KEY = (os.getenv("STRIPE_SECRET_KEY") or "").strip()
-# STRIPE_WEBHOOK_SECRET = (os.getenv("STRIPE_WEBHOOK_SECRET") or "").strip()
-STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 
-STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
- 
+# STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+
+STRIPE_SECRET_KEY="REMOVED"
+STRIPE_PUBLISHABLE_KEY="pk_test_51SeMpoDv4tETp3OSWUwFlyEplPx0MrmsVlphM1eEYelHZ0V0wFIFWYWNqlOMJ3ezK69UNVjtW0n0XHULNHgFVTcR00qw5en1ig"
+# Validate Stripe keys
+# if not STRIPE_SECRET_KEY:
+#     raise ValueError("STRIPE_SECRET_KEY is not set in environment variables")
+# if not STRIPE_SECRET_KEY.startswith('sk_test_'):
+#     raise ValueError("STRIPE_SECRET_KEY should start with 'sk_test_' for test mode")
+# if not STRIPE_PUBLISHABLE_KEY:
+#     raise ValueError("STRIPE_PUBLISHABLE_KEY is not set in environment variables")
+# if not STRIPE_PUBLISHABLE_KEY.startswith('pk_test_'):
+#     raise ValueError("STRIPE_PUBLISHABLE_KEY should start with 'pk_test_' for test mode")
+
+
 # Application definition 
 INSTALLED_APPS = [ 
     'django.contrib.admin', 
@@ -125,4 +133,4 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field  
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField' 
 
-SITE_URL = "http://127.0.0.1:8000"
+SITE_URL = os.getenv("SITE_URL", "http://127.0.0.1:8000")
