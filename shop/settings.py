@@ -17,20 +17,7 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 
-# STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
-
-STRIPE_SECRET_KEY="REMOVED"
-STRIPE_PUBLISHABLE_KEY="pk_test_51SeMpoDv4tETp3OSWUwFlyEplPx0MrmsVlphM1eEYelHZ0V0wFIFWYWNqlOMJ3ezK69UNVjtW0n0XHULNHgFVTcR00qw5en1ig"
-# Validate Stripe keys
-# if not STRIPE_SECRET_KEY:
-#     raise ValueError("STRIPE_SECRET_KEY is not set in environment variables")
-# if not STRIPE_SECRET_KEY.startswith('sk_test_'):
-#     raise ValueError("STRIPE_SECRET_KEY should start with 'sk_test_' for test mode")
-# if not STRIPE_PUBLISHABLE_KEY:
-#     raise ValueError("STRIPE_PUBLISHABLE_KEY is not set in environment variables")
-# if not STRIPE_PUBLISHABLE_KEY.startswith('pk_test_'):
-#     raise ValueError("STRIPE_PUBLISHABLE_KEY should start with 'pk_test_' for test mode")
-
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
 # Application definition 
 INSTALLED_APPS = [ 
