@@ -42,7 +42,23 @@
                                  class="img-thumbnail">
                         </td>
 
-                        <td class="align-middle">${{ item.product.price }}</td>
+                        <td class="align-middle">
+                            {% if item.product.is_sale and item.product.sale_price %}
+                                <span class="text-muted font-weight-bold">
+                                    <s>${{ item.product.price|floatformat:2 }}</s>
+                                </span>
+
+                                <br>
+
+                                <span class="text-danger font-weight-bold">
+                                    ${{ item.price|floatformat:2 }}
+                                </span>
+                            {% else %}
+                                <span class="text-success font-weight-bold">
+                                    ${{ item.price|floatformat:2 }}
+                                </span>
+                            {% endif %}
+                        </td>
 
                         <td class="align-middle" style="width:120px;">
                             <form action="{% url 'cart_update' %}" method="POST">
@@ -56,7 +72,7 @@
                         </td>
 
                         <td class="align-middle">
-                            ${{ item.subtotal }}
+                            ${{ item.subtotal|floatformat:2 }}
                         </td>
 
                         <td class="align-middle">
@@ -78,7 +94,7 @@
         </div>
 
         <div class="text-right mt-4">
-        <h4>Total: <strong>${{ cart_total }}</strong></h4>
+        <h4>Total: <strong>${{ cart_total|floatformat:2 }}</strong></h4>
         <a href="{% url 'home' %}" class="btn btn-secondary btn-lg mt-3">Continue Shopping</a>
         <a href="{% url 'payment:checkout' %}" class="btn btn-success btn-lg mt-3">Proceed to Checkout</a>
     </div>

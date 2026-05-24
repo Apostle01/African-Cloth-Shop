@@ -13,13 +13,14 @@ def cart_summary(request):
         product_id = int(key)  # convert key from string to int
         product = get_object_or_404(Product, id=product_id)
 
-        quantity = value.get("quantity", 1)
-        price = float(value.get("price", product.price))
+        quantity = int(value.get("quantity", 1))
+        price = float(product.current_price)
         subtotal = price * quantity
 
         items.append({
             "product": product,
             "quantity": quantity,
+            "price": price,
             "subtotal": subtotal,
         })
 
@@ -85,7 +86,7 @@ def checkout(request):
         product = get_object_or_404(Product, id=product_id)
 
         quantity = value.get("quantity", 1)
-        price = float(value.get("price", product.price))
+        price = float(value.get("price"))
         subtotal = price * quantity
 
         items.append({

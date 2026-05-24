@@ -23,11 +23,11 @@ class Cart:
     #========ADD============
     def add(self, product, quantity=1):
         product_id = str(product.id)
-        price = float(product.price)
+        price = float(product.current_price)
 
         if product_id not in self.cart:
             self.cart[product_id] = {
-                "quantity": quantity,
+                "quantity": int(quantity),
                 "price": price,
                 "product_id": product.id,
                 "name": product.name,
@@ -35,6 +35,7 @@ class Cart:
             }
         else:
             self.cart[product_id]["quantity"] += int(quantity)
+            self.cart[product_id]["price"] = price
 
         self.save()
 
@@ -43,8 +44,11 @@ class Cart:
         product_id = str(product.id)
 
         if product_id in self.cart:
-            price = float(product.price)
-            self.cart[product_id]["quantity"] = int(quantity)
+            price = float(product.current_price)
+            quantity = int(quantity)
+
+            self.cart[product_id]["quantity"] = quantity
+            self.cart[product_id]["price"] = price
             self.cart[product_id]["total_price"] = price * quantity
 
         self.save()
@@ -77,8 +81,15 @@ class Cart:
     #============ TOTAL =========
     def get_total(self):
         total = 0
-        for item in self.cart.values():
-           total += float(item["price"]) * int(item["quantity"])
+        
+        for product_id, item in self.cart.items():
+            try:
+                product = Product.objects.get(id=product_id)
+                price = float(product.current_price)
+            except Product.DoesNotExist:
+                price = float(item.get("price", 0))
+
+            total += price * int(item.get("quantity", 1))
         return total
 
     #========= LENGTH =========
@@ -99,7 +110,7 @@ class Cart:
                 quantity = int(item.get("quantity", 1))
 
                 # Fresh price from database
-                price = float(product.price)
+                price = float(product.current_price)
 
                 # Correct subtotal
                 subtotal = price * quantity

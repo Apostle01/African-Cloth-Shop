@@ -62,8 +62,14 @@ class Product(models.Model):
     image = models.ImageField(upload_to='uploads/products/', blank=True, null=True, default='images/red-kente.JPG')
     # Add Sale Stuff
     is_sale = models.BooleanField(default=False)
-    sale_price = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+    sale_price = models.DecimalField(default=0, max_digits=10, decimal_places=2, null=True, blank=True)
     stock = models.PositiveIntegerField(default=0)
+
+    @property
+    def current_price(self):
+        if self.is_sale and self.sale_price:
+            return self.sale_price
+        return self.price
 
     def in_stock(self):
         return self.stock > 0
