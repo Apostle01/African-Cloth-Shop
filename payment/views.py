@@ -3,7 +3,7 @@ import stripe
 import json
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.db import models
+# from django.db import models
 
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
@@ -121,10 +121,23 @@ def payment_success(request):
         messages.error(request, "Payment failed.")
         return redirect("cart_summary")
 
+        # FIX: Get email from shipping address or user
+        shipping_addr = ShippingAddress.objects.filter(user=request.user).first()
+        if shipping_addr and shipping_addr.shipping_email:
+            email = shipping_addr.shipping_email
+             
+    # Noshipping email? Use their account email
+    elif request.user.email:
+        email = request.user.email
+    
+    # Still nothing? Use a fallback (better than crashing)
+    else:
+        email = "customer@kentehaven.com"
+        
     order = Order.objects.create(
         user=request.user if request.user.is_authenticated else None,
         full_name=request.user.get_full_name() or request.user.username,
-        email=models.EmailField(max_length=250),
+        email=email,
         shipping_address="Saved during checkout",
         total_price=cart.get_total(),
         stripe_pid=payment_intent, # intent.id 
@@ -141,12 +154,19 @@ def payment_success(request):
         product.stock -= item["quantity"]
         product.save()
 
+        # ✅ FIX: Calculate price_paid based on whether product is on sale
+        if product.is_sale:
+            price_paid = product.sale_price
+        else:
+            price_paid = product.price
+
         OrderItem.objects.create(
             order=order,
             product=product,
             user=request.user,
             quantity=item["quantity"],
             price=product.price,
+            price_paid=price_paid,
         )
 
     cart.clear()

@@ -80,3 +80,58 @@ header.bg-dark {
   width: 100%;
   max-width: 100%;
 }
+
+.star-rating {
+        display: inline-block;
+        width: 100%;
+    }
+    
+    .stars-container {
+        display: flex;
+        gap: 8px;
+        cursor: pointer;
+    }
+    
+    .star {
+        font-size: 28px;
+        color: #ced4da;  /* Bootstrap secondary gray */
+        transition: color 0.2s;
+        cursor: pointer;
+        font-style: normal;
+    }
+    
+    .star.active {
+        color: #ffc107 !important;  /* Bootstrap warning/yellow color */
+    }
+    
+    .stars-container:hover .star {
+        color: #ffc107;
+    }
+    
+    .stars-container:hover .star:hover ~ .star {
+        color: #ced4da;
+    }
+    
+    /* Submit Button - Maintaining Bootstrap 4 structure with relevant color */
+    .btn-submit {
+        background-color: #28a745;  /* Bootstrap green */
+        border-color: #000000; /* Black border */
+        color: White;
+        transition: all 0.3s;
+    }
+    
+    .btn-submit:hover {
+        background-color: #218838;
+        border-color: #000000;
+        color: white;
+    }
+    
+    .btn-submit:focus,
+    .btn-submit.focus {
+        box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.5);
+    }
+    
+    .btn-submit:active {
+        background-color: #1e7e34;
+        border-color: #000000;
+    }

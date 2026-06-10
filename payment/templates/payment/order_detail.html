@@ -18,18 +18,26 @@
 
             <div class="flex-grow-1">
                 <strong>{{ item.product.name }}</strong><br>
-                Qty: {{ item.quantity }}<br>
-                Price: ${{ item.price }}
-            </div>
+                <strong>Qty: {{ item.quantity }}</strong><br>
+                <strong>Price:</strong>
 
-            <!-- ✅ REVIEW ACTION -->
+                {% if item.product.is_sale %}
+                    <span class="text-danger font-weight-bold">${{ item.price_paid }}</span>
+                    <strike class="text-muted">${{ item.price }}</strike>
+                {% else %}
+                    <span class="text-success font-weight-bold">
+                    ${{ item.price_paid }}
+                {% endif %}
+            </div>
+    
+            <!-- Leave Review Button -->
             <div>
                 <a href="{% url 'reviews:add_review' item.product.id %}"
                    class="btn btn-outline-dark btn-sm">
                     Leave Review
                 </a>
             </div>
-        </div>
-    {% endfor %}
-</div>
+        </div>  
+  {% endfor %}     
+</div>           
 {% endblock %}

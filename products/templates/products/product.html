@@ -36,7 +36,6 @@
 
       {% else %}
           ${{ product.price }}
-        {% comment %} </br>ID: {{ product.id }} {% endcomment %}
       {% endif %}
         </br>
       
@@ -52,14 +51,7 @@
                 Add to Cart
             </button>
         </form>
-
-        {% comment %} <form action="{% url 'cart_add' %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="product_id" value="{{ product.id }}">
-            <input type="hidden" name="quantity" value="1">
-            <button type="submit" class="btn btn-primary">Add to Cart</button>
-        </form> {% endcomment %}
-
+        
       </br></br>
       <a href="{% url 'home' %}" class="btn btn-secondary">Home</a>
     </br></br></br>
