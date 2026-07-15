@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect # type: ignore
+from django.contrib import messages # type: ignore
+from django.contrib.auth.decorators import login_required # type: ignore
 from products.models import Product
 from payment.models import OrderItem
 from .models import ProductReview
@@ -43,7 +43,7 @@ def add_review(request, product_id):
         else:
             form = ProductReviewForm()
         
-        return render(request, "review/add_review.html", {
+        return render(request, "reviews/add_review.html", {
             "form": form,
             "product": product,
         })
