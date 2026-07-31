@@ -90,12 +90,18 @@ def payment(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY
     amount = int(cart.get_total() * 100)  # Stripe uses cents
 
+    print("SECRET KEY =", settings.STRIPE_SECRET_KEY[:15])
+    print("PUBLISHABLE KEY =", settings.STRIPE_PUBLISHABLE_KEY[:15])
+
     intent = stripe.PaymentIntent.create(
         amount=amount,
         currency="usd",
-        automatic_payment_methods={"enabled": True},
+        # automatic_payment_methods={"enabled": True},
+        payment_method_types=["card"],
         metadata={"user_id": request.user.id}
     )
+    print(intent)
+    print(intent.client_secret)
 
     return render(request, "payment/payment.html", {
         "stripe_publishable_key": settings.STRIPE_PUBLISHABLE_KEY,

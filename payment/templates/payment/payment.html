@@ -23,6 +23,10 @@
 </div>
 
 <script>
+console.log("Publishable Key:", "{{ stripe_publishable_key }}");
+console.log("Client Secret:", "{{ client_secret }}");
+console.log("Return URL:", "{{ site_url }}{% url 'payment:payment_success' %}");
+
 const stripe = Stripe("{{ stripe_publishable_key }}");
 
 const elements = stripe.elements({
