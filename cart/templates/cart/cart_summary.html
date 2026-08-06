@@ -44,20 +44,25 @@
 
                         <td class="align-middle">
                             {% if item.product.is_sale and item.product.sale_price %}
-                                <span class="text-muted font-weight-bold">
-                                    <s>${{ item.product.price|floatformat:2 }}</s>
-                                </span>
-
+                                <strike class="text-muted">${{ item.product.price|floatformat:2 }}</strike>
+                                
                                 <br>
-
+                               
                                 <span class="text-danger font-weight-bold">
                                     ${{ item.price|floatformat:2 }}
                                 </span>
+                                
                             {% else %}
                                 <span class="text-success font-weight-bold">
                                     ${{ item.price|floatformat:2 }}
-                                </span>
+                                </span> 
                             {% endif %}
+                            {% if item.product.is_sale %}
+                            
+                            {% else %}
+                                {% comment %} ${{ item.price_paid }} {% endcomment %}
+                            {% endif %}
+
                         </td>
 
                         <td class="align-middle" style="width:120px;">
