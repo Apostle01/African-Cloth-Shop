@@ -4,8 +4,8 @@
 {% load static %}
       
 <!-- Header-->
-<header class="bg-dark py-5">
-    <div class="container px-4 px-lg-5 my-5">
+<header class="bg-dark py-3">
+    <div class="container px-4 px-lg-5 my-2">
         <div class="text-center text-white">
             <h1 class="display-4 fw-bolder">Shop in style</h1>
             <p class="lead fw-normal text-white-50 mb-0">Authentic Ghanaian Kente and Fabrics </p>
@@ -14,9 +14,10 @@
 </header> 
 
 <!-- Section-->
-<section class="py-5">
+<section class="py-2">
     <div class="container px-4 px-lg-5 mt-5">
-                
+
+<section class="product-section">
     <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     
     {% for product in products %}
@@ -38,25 +39,26 @@
             <!-- Product details-->
             <div class="card-body p-4">
                 <div class="text-center">
-            <!-- Product name-->
+
+            <!-- Product name -->
             <h2 class="fw-bolder">{{ product.name }}</h2>
-               <div class="d-flex justify-content-center small
-               .rating-stars mb-2">
-               <i class="bi-star-fill"></i>
-                &nbsp;&nbsp;<span style="color: red; font-weight: bold;">Sale!</span>&nbsp;&nbsp;
-                <i class="bi-star-fill"></i>
-                &nbsp;&nbsp;<span style="color: red; font-weight: bold;">Sale!</span>&nbsp;&nbsp;
-                <i class="bi-star-fill"></i>
+
+            <!-- Sale label -->
+            <div class="sale-label" aria-label="Product on sale">
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
+                <span>Sale!</span>
+                <i class="bi bi-star-fill" aria-hidden="true"></i>
             </div>
 
-                <!-- Product price-->
-                <strike>
-                ${{ product.price }}
-                </strike>
-                &nbsp;
-                <span style="color: red; font-weight: bold;">${{ product.sale_price }}</span>
-                <br/>
-                {{ product.description }}
+            <!-- Product price -->
+            <div class="product-price">
+                <del>${{ product.price }}</del>
+                <span class="sale-price">${{ product.sale_price }}</span>
+            </div>
+
+            <br>
+
+            {{ product.description }}
             </div>
             </div>
 

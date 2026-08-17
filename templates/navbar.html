@@ -1,80 +1,168 @@
-<!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="{% url 'home' %}">Kente Haven</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li> {% endcomment %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'search' %}">Search</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
 
-                        {% if user.is_authenticated %}
-                            {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'update_user' %}">Profile</a></li> {% endcomment %}
+            <a class="navbar-brand" href="{% url 'home' %}">
+                Kente Haven
+            </a>
+
+            <button class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse"
+                 id="navbarSupportedContent">
+
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'search' %}">
+                            Search
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'about' %}">
+                            About
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'contact' %}">
+                            Contact
+                        </a>
+                    </li>
+
+                    {% if user.is_authenticated %}
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle"
+                               href="#"
+                               id="profileDropdown"
+                               role="button"
+                               data-toggle="dropdown"
+                               aria-haspopup="true"
+                               aria-expanded="false">
                                 Profile
                             </a>
 
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{% url 'update_user' %}">User Profile</a>
+                            <div class="dropdown-menu"
+                                 aria-labelledby="profileDropdown">
+
+                                <a class="dropdown-item"
+                                   href="{% url 'update_user' %}">
+                                    User Profile
+                                </a>
+
                                 <div class="dropdown-divider"></div>
 
-                                <a class="dropdown-item" href="{% url 'update_info' %}">User Info</a>
-                                {% comment %} <a class="dropdown-item" href="{% url 'category' 'ATL' %}">ATL</a>
-                                <a class="dropdown-item" href="{% url 'category' 'Ghanaian_Wax_Print' %}">Ghanaian Wax Print</a>
-                                <a class="dropdown-item" href="{% url 'category' 'kente' %}">Kente</a> {% endcomment %}
+                                <a class="dropdown-item"
+                                   href="{% url 'update_info' %}">
+                                    User Info
+                                </a>
                             </div>
                         </li>
 
-                            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-                        {% else %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
-                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{% url 'logout' %}">
+                                Logout
+                            </a>
+                        </li>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Categories
+                    {% else %}
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{% url 'login' %}">
+                                Login
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{% url 'register' %}">
+                                Register
+                            </a>
+                        </li>
+
+                    {% endif %}
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="categoriesDropdown"
+                           role="button"
+                           data-toggle="dropdown"
+                           aria-haspopup="true"
+                           aria-expanded="false">
+                            Categories
+                        </a>
+
+                        <div class="dropdown-menu"
+                             aria-labelledby="categoriesDropdown">
+
+                            <a class="dropdown-item"
+                               href="{% url 'home' %}">
+                                All Products
                             </a>
 
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{% url 'home' %}">All Products</a>
-                                <div class="dropdown-divider"></div>
+                            <div class="dropdown-divider"></div>
 
-                                <a class="dropdown-item" href="{% url 'category' 'Woodin' %}">Woodin</a>
-                                <a class="dropdown-item" href="{% url 'category' 'ATL' %}">ATL</a>
-                                <a class="dropdown-item" href="{% url 'category' 'Ghanaian_Wax_Print' %}">Ghanaian Wax Print</a>
-                                <a class="dropdown-item" href="{% url 'category' 'kente' %}">Kente</a>
-                            </div>
-                        </li>
+                            <a class="dropdown-item"
+                               href="{% url 'category' 'Woodin' %}">
+                                Woodin
+                            </a>
 
-            
-                        <ul class="navbar-nav ml-auto mb-2 ">
-                        
-                        <div class="ml-auto mr-3">
-                          <form class="form-inline my-2 my-lg-0">
-                            
-                            <div class="ml-auto pr-3">
-                              <a href="{% url 'cart_summary' %}" class="btn btn-outline-light cart-btn">
-                                  <i class="bi bi-cart-fill"></i> Cart
-                                  {% with total_items=request.session.cart|length %}
-                                      <span class="badge bg-warning text-dark rounded-pill cart-badge">
-                                          {{ total_items }}
-                                      </span>
-                                  {% endwith %}
-                              </a>
-                          </div>
-                        </form>
-                    </div>                      
-                </ul> 
+                            <a class="dropdown-item"
+                               href="{% url 'category' 'ATL' %}">
+                                ATL
+                            </a>
+
+                            <a class="dropdown-item"
+                               href="{% url 'category' 'Ghanaian_Wax_Print' %}">
+                                Ghanaian Wax Print
+                            </a>
+
+                            <a class="dropdown-item"
+                               href="{% url 'category' 'kente' %}">
+                                Kente
+                            </a>
+
+                        </div>
+                    </li>
+
+                </ul>
+
+                <div class="ml-auto">
+                    <a href="{% url 'cart_summary' %}"
+                       class="btn btn-outline-dark cart-btn"
+                       aria-label="Shopping cart">
+
+                        <i class="bi bi-cart-fill"
+                           aria-hidden="true"></i>
+
+                        <span>Cart</span>
+
+                        {% with total_items=request.session.cart|length %}
+                            <span id="cart_quantity" class="badge bg-warning text-dark rounded-pill cart-badge">
+                                {{ total_items }}
+                            </span>
+                        {% endwith %}
+
+                    </a>
+                </div>
+
             </div>
-        </nav>  
-        
-            
+        </div>
+    </nav>
+</header>
