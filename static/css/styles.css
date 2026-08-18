@@ -17,6 +17,113 @@ header.bg-dark {
     background-color: #212529 !important;
 }
 
+.site-logo {
+    width: 85px;
+    height: 70px;
+    object-fit: contain;
+    display: block;
+    block-shrink: 0;
+}
+
+/* Keep the logo and navbar aligned */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+header .navbar {
+    min-height: 75px;
+}
+
+.cart-container {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.cart-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-width: 105px;
+    min-height: 45px;
+
+    padding: 8px 14px;
+
+    background-color: #212529;
+    border: 2px solid #212529;
+    border-radius: 6px;
+
+    color: #ffffff !important;
+    font-weight: 700;
+    text-decoration: none !important;
+
+    transition: all 0.2s ease-in-out;
+}
+
+.cart-btn:hover {
+    background-color: #000000;
+    border-color: #000000;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+.cart-icon {
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.cart-text {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Cart quantity */
+.cart-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 24px;
+    height: 24px;
+
+    padding: 2px 7px;
+
+    background-color: #ffc107;
+    color: #212529;
+
+    border-radius: 50%;
+
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* Smaller logo on mobile screens */
+@media (max-width: 991.98px) {
+    .site-logo {
+        width: 70px;
+        height: 60px;
+    }
+    .navbar-brand {
+        margin-right: 10px;
+    }
+
+    .cart-container {
+        margin-top: 15px;
+        margin-left: 0;
+    }
+
+    .cart-btn {
+        width: 100%;
+        max-width: 150px;
+    }
+}
+
 main {
     margin-top: 0;
     padding-top: 0;
@@ -38,6 +145,49 @@ main {
 .card-img-top {
     height: 220px;
     object-fit: cover;
+}
+
+.contact-page {
+    padding-bottom: 3rem;
+}
+
+.contact-info-card {
+    height: auto !important;
+}
+
+.contact-info-card .card-body {
+    height: auto;
+}
+
+.contact-info-card p {
+    margin-bottom: 0.75rem;
+}
+
+.contact-form {
+    margin-top: 1.5rem;
+}
+
+.contact-form .form-group {
+    margin-bottom: 1.25rem;
+}
+
+.contact-form label {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+.contact-form .form-control {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+.contact-form .btn {
+    margin-top: 0.5rem;
 }
 
 .btn-outline-dark {

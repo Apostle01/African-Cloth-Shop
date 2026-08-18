@@ -1,11 +1,27 @@
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container px-4 px-lg-5">
+{% load static %}
 
-            <a class="navbar-brand" href="{% url 'home' %}">
-                Kente Haven
-            </a>
+<header> <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> 
+    <div class="container px-4 px-lg-5">
+        <img
+                    src="{% static 'images/Desktop/full_style.png' %}"
+                    alt="Kente Haven logo"
+                    class="site-logo"
+                > 
+        <a class="navbar-brand" href="{% url 'home' %}"> 
+            Kente Haven 
+        </a>
+            <!-- Logo -->
+            {% comment %} <a class="navbar-brand d-flex align-items-center"
+               href="{% url 'home' %}">
+                <img
+                    src="{% static 'images/Desktop/full_style.png' %}"
+                    alt="Kente Haven logo"
+                    class="site-logo"
+                >
+                <span class="sr-only">Kente Haven</span>
+            </a> {% endcomment %}
 
+            <!-- Mobile menu button -->
             <button class="navbar-toggler"
                     type="button"
                     data-toggle="collapse"
@@ -13,14 +29,17 @@
                     aria-controls="navbarSupportedContent"
                     aria-expanded="false"
                     aria-label="Toggle navigation">
+
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            <!-- Navigation links -->
             <div class="collapse navbar-collapse"
                  id="navbarSupportedContent">
 
                 <ul class="navbar-nav mr-auto">
 
+                    <!-- Search -->
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{% url 'search' %}">
@@ -28,6 +47,7 @@
                         </a>
                     </li>
 
+                    <!-- About -->
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{% url 'about' %}">
@@ -35,6 +55,7 @@
                         </a>
                     </li>
 
+                    <!-- Contact -->
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{% url 'contact' %}">
@@ -44,6 +65,7 @@
 
                     {% if user.is_authenticated %}
 
+                        <!-- Profile -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle"
                                href="#"
@@ -69,9 +91,11 @@
                                    href="{% url 'update_info' %}">
                                     User Info
                                 </a>
+
                             </div>
                         </li>
 
+                        <!-- Logout -->
                         <li class="nav-item">
                             <a class="nav-link"
                                href="{% url 'logout' %}">
@@ -81,6 +105,7 @@
 
                     {% else %}
 
+                        <!-- Login -->
                         <li class="nav-item">
                             <a class="nav-link"
                                href="{% url 'login' %}">
@@ -88,6 +113,7 @@
                             </a>
                         </li>
 
+                        <!-- Register -->
                         <li class="nav-item">
                             <a class="nav-link"
                                href="{% url 'register' %}">
@@ -97,6 +123,7 @@
 
                     {% endif %}
 
+                    <!-- Categories -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle"
                            href="#"
@@ -143,26 +170,28 @@
 
                 </ul>
 
-                <div class="ml-auto">
+                <!-- Shopping Cart -->
+                <div class="ml-auto cart-container">
+
                     <a href="{% url 'cart_summary' %}"
-                       class="btn btn-outline-dark cart-btn"
-                       aria-label="Shopping cart">
+                        class="cart-btn"
+                        aria-label="Shopping cart">
+                        <i class="fas fa-shopping-cart cart-icon"
+                        aria-hidden="true"></i>
 
-                        <i class="bi bi-cart-fill"
-                           aria-hidden="true"></i>
-
-                        <span>Cart</span>
+                        <span class="cart-text">Cart</span>
 
                         {% with total_items=request.session.cart|length %}
-                            <span id="cart_quantity" class="badge bg-warning text-dark rounded-pill cart-badge">
-                                {{ total_items }}
-                            </span>
+                                <span id="cart_quantity" class="cart-badge">
+                                    {{ total_items }}
+                                </span>
                         {% endwith %}
 
                     </a>
+
                 </div>
 
-            </div>
+             </div>
         </div>
     </nav>
 </header>
