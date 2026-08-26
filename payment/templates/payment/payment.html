@@ -2,30 +2,174 @@
 {% load static %}
 
 {% block content %}
+
 <script src="https://js.stripe.com/v3/"></script>
 
 <div class="container my-5">
+
     <h2 class="mb-4">Secure Payment</h2>
 
+    <!-- Current Stripe payment -->
     <div class="card p-4">
+
         <form id="payment-form">
             {% csrf_token %}
 
-            <!-- Stripe renders card / wallet UI here -->
-            <div id="payment-element" style="min-height: 120px;" class="mb-3"></div>
+            <!-- Stripe Payment Element -->
+            <div id="payment-element" class="mb-3"></div>
 
-            <button id="submit" class="btn btn-success btn-block mt-4">
+            <button id="submit" type="submit"
+                    class="btn btn-success btn-block mt-4">
                 Pay Now
             </button>
-            <div id="error-message" class="text-danger mt-3"></div>
+
+            <div id="error-message"
+                 class="text-danger mt-3"
+                 role="alert">
+            </div>
         </form>
+
     </div>
+
+
+    <!-- Future payment options -->
+    <section class="future-payment-options mt-5"
+             aria-labelledby="future-payment-heading">
+
+        <div class="text-center mb-4">
+
+            <h3 id="future-payment-heading">
+                More Payment Options
+            </h3>
+
+            <p class="text-muted">
+                Additional payment methods are coming soon.
+            </p>
+
+        </div>
+
+
+        <div class="row justify-content-center">
+
+            <!-- Apple Pay -->
+            <div class="col-md-4 mb-3">
+
+                <div class="future-payment-card">
+
+                    <div class="future-payment-icon">
+                        <i class="fab fa-apple"
+                           aria-hidden="true"></i>
+                    </div>
+
+                    <h4>Apple Pay</h4>
+
+                    <span class="coming-soon-badge">
+                        Coming Soon
+                    </span>
+
+                    <p>
+                        Apple Pay will be introduced as a
+                        convenient digital-wallet payment option.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Google Pay -->
+            <div class="col-md-4 mb-3">
+
+                <div class="future-payment-card">
+
+                    <div class="future-payment-icon">
+                        <i class="fab fa-google"
+                           aria-hidden="true"></i>
+                    </div>
+
+                    <h4>Google Pay</h4>
+
+                    <span class="coming-soon-badge">
+                        Coming Soon
+                    </span>
+
+                    <p>
+                        Google Pay will be introduced as an
+                        additional digital-wallet payment option.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Mobile Money -->
+            <div class="col-md-4 mb-3">
+
+                <div class="future-payment-card">
+
+                    <div class="future-payment-icon">
+                        <i class="fas fa-mobile-alt"
+                           aria-hidden="true"></i>
+                    </div>
+
+                    <h4>Mobile Money</h4>
+
+                    <span class="coming-soon-badge">
+                        Coming Soon
+                    </span>
+
+                    <p>
+                        Mobile Money payment options will be
+                        introduced for customers in Ghana.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Ghana Mobile Money networks -->
+        <div class="mobile-money-preview mt-4">
+
+            <h4>Planned Mobile Money Support</h4>
+
+            <p class="text-muted">
+                Future mobile-money integration is planned for:
+            </p>
+
+            <div class="mobile-money-networks">
+
+                <span class="network-badge">
+                    MTN Mobile Money
+                </span>
+
+                <span class="network-badge">
+                    Telecel Cash
+                </span>
+
+                <span class="network-badge">
+                    AT Money
+                </span>
+
+            </div>
+
+            <p class="small text-muted mt-3 mb-0">
+                These payment methods are currently under development
+                and are not available for transactions.
+            </p>
+
+        </div>
+
+    </section>
+
 </div>
 
+
+<!-- Stripe JavaScript -->
 <script>
-console.log("Publishable Key:", "{{ stripe_publishable_key }}");
-console.log("Client Secret:", "{{ client_secret }}");
-console.log("Return URL:", "{{ site_url }}{% url 'payment:payment_success' %}");
 
 const stripe = Stripe("{{ stripe_publishable_key }}");
 
@@ -34,23 +178,36 @@ const elements = stripe.elements({
 });
 
 const paymentElement = elements.create("payment");
+
 paymentElement.mount("#payment-element");
+
 
 const form = document.getElementById("payment-form");
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+form.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
 
     const { error } = await stripe.confirmPayment({
+
         elements,
+
         confirmParams: {
-            return_url: "{{ site_url }}{% url 'payment:payment_success' %}",
+            return_url:
+                "{{ site_url }}{% url 'payment:payment_success' %}",
         },
+
     });
 
     if (error) {
-        document.getElementById("error-message").textContent = error.message;
+
+        document.getElementById("error-message").textContent =
+            error.message;
+
     }
+
 });
+
 </script>
+
 {% endblock %}

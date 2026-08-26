@@ -12,34 +12,36 @@
         </header> 
 
         <div class="container">
-            <div class="row">
-                <center>
-                    <div class="col-md-6 offset-md-3">
+            <div class="row justify-content-center">
+                
+            <div class="col-12 col-md-6 col-lg-5">
+                <h2 class="text-center mb-4">Create an account</h2>
                     
-                    <br></br>
             <form method="POST" action="{% url 'register' %}">
                 {% csrf_token %}
 
                 {{ form.as_p }}
                 {% if form.errors %}
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger role="alert">
                         {{ form.errors }}
                     </div>
                 {% endif %}
 
-                <br/><br/>
+                <div class="text-center mt-4">
                 <button type="submit" class="btn btn-secondary">
                     Register
                 </button>
-            
+              </div>
             </form>
-                                
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    </div>
-                </center>
-            </div>
+            <hr class="my-4">
+                <div class="text-center">
+                <p class="mb-2">
+                    No need for an account
+                </p>
+                <a href="{% url 'home' %}" class "btn btn-outline-dark">Continue as Guest </a>
+            <br><br>
         </div>
-        {% endblock %}
+        </div>
+        </div>
+    </div>
+{% endblock %}

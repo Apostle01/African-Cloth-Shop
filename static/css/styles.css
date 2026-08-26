@@ -333,3 +333,214 @@ main {
 .shipping-info-section {
     overflow-x: visible;
 }
+
+/* =========================================
+   FUTURE PAYMENT OPTIONS
+   ========================================= */
+
+.future-payment-options {
+    padding: 25px 0 40px;
+}
+
+.future-payment-options h3 {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.future-payment-card {
+    height: 100%;
+    padding: 25px 20px;
+    text-align: center;
+
+    background-color: #ffffff;
+
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.future-payment-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.future-payment-icon {
+    font-size: 42px;
+    margin-bottom: 12px;
+
+    color: #212529;
+}
+
+.future-payment-card h4 {
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.future-payment-card p {
+    margin-top: 15px;
+    margin-bottom: 0;
+
+    color: #6c757d;
+}
+
+
+/* Coming Soon badge */
+
+.coming-soon-badge {
+    display: inline-block;
+
+    padding: 5px 12px;
+
+    background-color: #ffc107;
+    color: #212529;
+
+    border-radius: 20px;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+
+/* =========================================
+   MOBILE MONEY PREVIEW
+   ========================================= */
+
+.mobile-money-preview {
+    max-width: 800px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding: 25px;
+
+    text-align: center;
+
+    background-color: #f8f9fa;
+
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+
+.mobile-money-preview h4 {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.mobile-money-networks {
+    display: flex;
+
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+.network-badge {
+    display: inline-block;
+
+    padding: 8px 14px;
+
+    background-color: #ffffff;
+
+    border: 1px solid #ced4da;
+    border-radius: 20px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   RESPONSIVE PAYMENT OPTIONS
+   ========================================= */
+
+@media (max-width: 767.98px) {
+
+    .future-payment-card {
+        padding: 20px 15px;
+    }
+
+    .future-payment-icon {
+        font-size: 36px;
+    }
+
+    .mobile-money-preview {
+        padding: 20px 15px;
+    }
+
+    .mobile-money-networks {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .network-badge {
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+/* ==============================
+   Login Form
+   ============================== */
+
+.login-form {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.login-form h2 {
+    font-weight: bold;
+}
+
+.login-form .form-control {
+    width: 100%;
+}
+
+.login-form .btn {
+    margin-top: 10px;
+}
+
+/* =========================================
+   Registration Form
+   ========================================= */
+
+.register-form-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+}
+
+.register-form-container form {
+    width: 100%;
+}
+
+.register-form-container input,
+.register-form-container select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.register-form-container .helptext {
+    display: block;
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+.register-form-container ul {
+    padding-left: 20px;
+}
+
+.register-form-container .btn {
+    min-width: 120px;
+}

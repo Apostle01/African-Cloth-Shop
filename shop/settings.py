@@ -115,6 +115,10 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"
+
 # Default primary key field type 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field  
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField' 

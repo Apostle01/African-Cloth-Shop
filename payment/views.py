@@ -3,7 +3,6 @@ import stripe
 import json
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-# from django.db import models
 
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
@@ -23,176 +22,334 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def checkout(request):
     cart = Cart(request)
 
+    # Make sure the cart is not empty
     if len(cart) == 0:
         messages.warning(request, "Your cart is empty.")
         return redirect("cart_summary")
 
-    # Load existing shipping address if it exists
-    shipping_address = ShippingAddress.objects.filter(user=request.user).first()
+    # Get saved shipping address only for authenticated users
+    shipping_address = None
 
+    if request.user.is_authenticated:
+        shipping_address = ShippingAddress.objects.filter(
+            user=request.user
+        ).first()
+
+    # Handle submitted checkout form
     if request.method == "POST":
-        form = ShippingForm(request.POST, instance=shipping_address)
+
+        if request.user.is_authenticated:
+            form = ShippingForm(
+                request.POST,
+                instance=shipping_address
+            )
+        else:
+            # Guest checkout
+            form = ShippingForm(request.POST)
+
         if form.is_valid():
+
             shipping = form.save(commit=False)
-            shipping.user = request.user
+
+            # Attach the shipping address to the user
+            # only when the customer is logged in.
+            if request.user.is_authenticated:
+                shipping.user = request.user
+
             shipping.save()
 
             return redirect("payment:payment")
-    else:
-        form = ShippingForm(instance=shipping_address)
 
-    # FIX: Properly get cart items with product details
-    cart_items = []
-    for item in cart:
-        # Assuming cart contains items with 'product' and 'quantity'
-        if hasattr(item, 'product') and hasattr(item, 'quantity'):
-            cart_items.append({
-                'product': item.product,
-                'quantity': item.quantity,
-                'subtotal': item.product.price * item.quantity
-            })
-        # Alternative: if cart is a dictionary
-        elif isinstance(item, dict) and 'product' in item:
-            cart_items.append(item)
-    
-    # If cart.get_items() exists and returns the right structure, use it directly
-    # Otherwise, use cart_items above
-    cart_items_data = cart.get_items() if hasattr(cart, "get_items") else cart_items
-    
+    else:
+
+        if request.user.is_authenticated:
+            form = ShippingForm(
+                instance=shipping_address
+            )
+        else:
+            # Empty form for guest customers
+            form = ShippingForm()
+
+    # Get current cart items
+    cart_items = cart.get_items()
+
     context = {
-        'form': form,
-        'cart_items': cart.get_items() if hasattr(cart, "get_items")else cart,
-        'cart_total': cart.get_total(),
+        "form": form,
+        "cart_items": cart_items,
+        "cart_total": cart.get_total(),
     }
-    if request.user.is_authenticated:
-            # Get Current User
-            current_user = request.user
-            # Get or Create Shipping info
-            shipping_user, created = ShippingAddress.objects.get_or_create(user=request.user)
 
-            # Checkout as logged in
-            shipping_form = ShippingForm(request.POST or None, instance=shipping_user)
-            return render(request, "payment/checkout.html", context)
-    else:
-            # Checkout as guest
-            shipping_form = ShippingForm(request.POST or None)
-    return render(request, "payment/checkout.html", context)
+    return render(
+        request,
+        "payment/checkout.html",
+        context
+    )
 
-@login_required
 def payment(request):
     cart = Cart(request)
 
     if len(cart) == 0:
-        messages.error(request, "Your cart is empty")
+        messages.error(request, "Your cart is empty.")
         return redirect("cart_summary")
 
-    # stripe.api_key = (settings.STRIPE_SECRET_KEY or "").strip()
     stripe.api_key = settings.STRIPE_SECRET_KEY
-    amount = int(cart.get_total() * 100)  # Stripe uses cents
 
-    print("SECRET KEY =", settings.STRIPE_SECRET_KEY[:15])
-    print("PUBLISHABLE KEY =", settings.STRIPE_PUBLISHABLE_KEY[:15])
+    amount = int(cart.get_total() * 100)
+
+    if request.user.is_authenticated:
+        metadata = {
+            "user_id": str(request.user.id)
+        }
+    else:
+        metadata = {
+            "user_id": "guest"
+        }
 
     intent = stripe.PaymentIntent.create(
         amount=amount,
         currency="usd",
-        # automatic_payment_methods={"enabled": True},
         payment_method_types=["card"],
-        metadata={"user_id": request.user.id}
+        metadata=metadata
     )
-    print(intent)
-    print(intent.client_secret)
 
     return render(request, "payment/payment.html", {
         "stripe_publishable_key": settings.STRIPE_PUBLISHABLE_KEY,
         "client_secret": intent.client_secret,
         "site_url": settings.SITE_URL,
         "cart": cart,
-        "total": cart.get_total(),  
+        "total": cart.get_total(),
     })
 
-@login_required
 def payment_success(request):
+
     cart = Cart(request)
 
+    # Get the Stripe PaymentIntent ID
     payment_intent = request.GET.get("payment_intent")
 
     if not payment_intent:
-        messages.error(request, "Payment not verified.")
+        messages.error(request, "Payment could not be verified.")
         return redirect("cart_summary")
 
-    intent = stripe.PaymentIntent.retrieve(payment_intent)
+    # Verify the payment with Stripe
+    stripe.api_key = settings.STRIPE_SECRET_KEY
 
+    try:
+        intent = stripe.PaymentIntent.retrieve(payment_intent)
+    except stripe.error.StripeError:
+        messages.error(
+            request,
+            "There was a problem verifying your payment."
+        )
+        return redirect("cart_summary")
+
+    # Make sure Stripe confirms successful payment
     if intent.status != "succeeded":
-        messages.error(request, "Payment failed.")
+        messages.error(request, "Payment was not successful.")
         return redirect("cart_summary")
 
-        # FIX: Get email from shipping address or user
-        shipping_addr = ShippingAddress.objects.filter(user=request.user).first()
-        if shipping_addr and shipping_addr.shipping_email:
-            email = shipping_addr.shipping_email
-             
-    # Noshipping email? Use their account email
-    elif request.user.email:
-        email = request.user.email
-    
-    # Still nothing? Use a fallback (better than crashing)
+    # -------------------------------------------------
+    # GET CUSTOMER INFORMATION
+    # -------------------------------------------------
+
+    email = None
+    full_name = "Guest Customer"
+    shipping_address = "Saved during checkout"
+
+    # Logged-in customer
+    if request.user.is_authenticated:
+
+        shipping_addr = ShippingAddress.objects.filter(
+            user=request.user
+        ).first()
+
+        if shipping_addr:
+
+            if shipping_addr.shipping_email:
+                email = shipping_addr.shipping_email
+
+            if hasattr(shipping_addr, "shipping_full_name"):
+                if shipping_addr.shipping_full_name:
+                    full_name = shipping_addr.shipping_full_name
+
+        # Fall back to account email
+        if not email:
+            email = request.user.email
+
+        # Fall back to username/name
+        if request.user.get_full_name():
+            full_name = request.user.get_full_name()
+        elif request.user.username:
+            full_name = request.user.username
+
+    # Guest customer
     else:
+
+        # Try to obtain the email from Stripe
+        if intent.receipt_email:
+            email = intent.receipt_email
+
+        # Try Stripe customer details if available
+        if not email and getattr(intent, "customer", None):
+
+            try:
+                customer = stripe.Customer.retrieve(intent.customer)
+
+                if customer.email:
+                    email = customer.email
+
+                if customer.name:
+                    full_name = customer.name
+
+            except stripe.error.StripeError:
+                pass
+
+    # Final fallback
+    if not email:
         email = "customer@kentehaven.com"
-        
+
+    # -------------------------------------------------
+    # CREATE ORDER
+    # -------------------------------------------------
+
     order = Order.objects.create(
-        user=request.user if request.user.is_authenticated else None,
-        full_name=request.user.get_full_name() or request.user.username,
+
+        user=(
+            request.user
+            if request.user.is_authenticated
+            else None
+        ),
+
+        full_name=full_name,
+
         email=email,
-        shipping_address="Saved during checkout",
+
+        shipping_address=shipping_address,
+
         total_price=cart.get_total(),
-        stripe_pid=payment_intent, # intent.id 
+
+        stripe_pid=payment_intent,
+
         paid=True
     )
 
-    for product_id, item in cart.cart.items():
-        product = get_object_or_404(Product, id=product_id)
+    # -------------------------------------------------
+    # CREATE ORDER ITEMS
+    # -------------------------------------------------
 
-        if product.stock < item["quantity"]:
-            messages.error(request, f"{product.name} is out of stock.")
+    for product_id, item in cart.cart.items():
+
+        product = get_object_or_404(
+            Product,
+            id=product_id
+        )
+
+        quantity = int(item["quantity"])
+
+        # Check stock before reducing it
+        if product.stock < quantity:
+
+            messages.error(
+                request,
+                f"{product.name} is out of stock."
+            )
+
+            # Remove the incomplete order
+            order.delete()
+
             return redirect("cart_summary")
 
-        product.stock -= item["quantity"]
+        # Reduce stock
+        product.stock -= quantity
         product.save()
 
-        # ✅ FIX: Calculate price_paid based on whether product is on sale
+        # Determine the actual price paid
         if product.is_sale:
             price_paid = product.sale_price
         else:
             price_paid = product.price
 
+        # Create order item
         OrderItem.objects.create(
+
             order=order,
+
             product=product,
-            user=request.user,
-            quantity=item["quantity"],
+
+            user=(
+                request.user
+                if request.user.is_authenticated
+                else None
+            ),
+
+            quantity=quantity,
+
             price=product.price,
-            price_paid=price_paid,
+
+            price_paid=price_paid
         )
 
+    # -------------------------------------------------
+    # CLEAR CART
+    # -------------------------------------------------
+
     cart.clear()
-    messages.success(request, "Payment successful! Order placed.")
+
+    # -------------------------------------------------
+    # SEND CONFIRMATION EMAIL
+    # -------------------------------------------------
+
+    messages.success(
+        request,
+        "Payment successful! Your order has been placed."
+    )
+
     send_mail(
+
         subject="Order Confirmation – Kente Haven",
-        message=f"Thank you for your order #{order.id}. Total: £{order.total_price}",
+
+        message=(
+            f"Thank you for your order #{order.id}.\n\n"
+            f"Total: £{order.total_price}\n\n"
+            "We will process your order shortly."
+        ),
+
         from_email=settings.DEFAULT_FROM_EMAIL,
+
         recipient_list=[order.email],
+
         fail_silently=True,
     )
-    return render(request, "payment/payment_success.html", {"order": order})
 
+    # -------------------------------------------------
+    # DISPLAY SUCCESS PAGE
+    # -------------------------------------------------
+
+    return render(
+        request,
+        "payment/payment_success.html",
+        {
+            "order": order
+        }
+    )
+
+# @login_required
 def order_detail(request, order_id):
-    order = get_object_or_404(Order, id=order_id, user=request.user)
-    return render(request, "payment/order_detail.html", {
-        "order": order
-    })
+    order = get_object_or_404(
+        Order,
+        id=order_id,
+        
+    )
 
-@login_required
+    return render(
+        request,
+        "payment/order_detail.html",
+        {
+            "order": order,
+        }
+    )
+
+# @login_required
 def order_history(request):
     orders = Order.objects.filter(user=request.user).order_by("-created_at")
     return render(request, "payment/order_history.html", {"orders": orders})
