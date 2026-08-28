@@ -12,7 +12,10 @@ SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-dev-key")
 # SECURITY WARNING: don't run with debug turned on in production! 
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ["f99915aa3c72b3.lhr.life", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["f99915aa3c72b3.lhr.life", "127.0.0.1", "localhost", "kente-haven-pssf.onrender.com"]
+CSRF_TRUSTED_ORIGINS = [
+    'https://kente-haven-pssf.onrender.com',
+]
 
 STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
