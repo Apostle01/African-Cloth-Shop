@@ -8,6 +8,10 @@ body {
     background-color: #ffffff;
 }
 
+/* =========================================
+   HEADER
+   ========================================= */
+
 header {
     margin-top: 0;
     margin-bottom: 1rem;
@@ -17,25 +21,155 @@ header.bg-dark {
     background-color: #212529 !important;
 }
 
-.site-logo {
-    width: 85px;
-    height: 70px;
-    object-fit: contain;
-    display: block;
-    block-shrink: 0;
+
+/* =========================================
+   KENTE HAVEN NAVBAR
+   ========================================= */
+
+/* Larger navbar */
+header .navbar {
+    min-height: 90px;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
-/* Keep the logo and navbar aligned */
+/* Wider navbar container */
+.navbar-container {
+    width: 95%;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Keep logo and brand aligned */
 .navbar-brand {
     display: flex;
     align-items: center;
     padding-top: 0;
     padding-bottom: 0;
+    margin-right: 25px;
 }
 
-header .navbar {
-    min-height: 75px;
+
+/* =========================================
+   NAVBAR LOGO
+   ========================================= */
+
+.site-logo,
+.navbar-logo {
+    width: 78px;
+    height: 70px;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+    margin-right: 12px;
+
+    transition:
+        transform 0.6s ease,
+        box-shadow 0.6s ease;
 }
+
+/* Logo hover spin */
+.site-logo:hover,
+.navbar-logo:hover {
+    transform: rotate(360deg) scale(1.08);
+    box-shadow: 0 0 18px rgba(255, 193, 7, 0.8);
+}
+
+
+/* =========================================
+   BRAND NAME
+   ========================================= */
+
+.brand-name {
+    color: #ffffff !important;
+    font-size: 1.6rem;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.brand-name:hover {
+    color: #ffc107 !important;
+}
+
+
+/* =========================================
+   NAVIGATION
+   ========================================= */
+
+.navbar,
+.navbar * {
+    font-family: Arial, sans-serif !important;
+}
+
+/* Navigation links */
+.custom-navbar .navbar-nav .nav-link {
+    position: relative;
+
+    color: #ffffff !important;
+
+    font-size: 1.05rem;
+    font-weight: 700;
+
+    margin-left: 5px;
+    margin-right: 5px;
+
+    padding: 12px 10px !important;
+
+    transition:
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+/* Gold underline */
+.custom-navbar .navbar-nav .nav-link::after {
+    content: "";
+
+    position: absolute;
+
+    left: 10px;
+    right: 10px;
+    bottom: 4px;
+
+    height: 3px;
+
+    background-color: #ffc107;
+
+    transform: scaleX(0);
+    transform-origin: center;
+
+    transition: transform 0.3s ease;
+}
+
+
+/* Navigation hover */
+.custom-navbar .navbar-nav .nav-link:hover {
+    color: #ffc107 !important;
+    transform: translateY(-2px);
+}
+
+
+/* Display underline on hover */
+.custom-navbar .navbar-nav .nav-link:hover::after {
+    transform: scaleX(1);
+}
+
+
+/* =========================================
+   LIGHT NAVBAR SUPPORT
+   ========================================= */
+
+.navbar-light .navbar-nav .nav-link {
+    color: #212529 !important;
+    opacity: 1 !important;
+}
+
+
+/* =========================================
+   CART
+   ========================================= */
 
 .cart-container {
     display: flex;
@@ -45,8 +179,10 @@ header .navbar {
 
 .cart-btn {
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
+
     gap: 8px;
 
     min-width: 105px;
@@ -55,36 +191,55 @@ header .navbar {
     padding: 8px 14px;
 
     background-color: #212529;
+
     border: 2px solid #212529;
-    border-radius: 6px;
+    border-radius: 8px;
 
     color: #ffffff !important;
+
     font-weight: 700;
+
     text-decoration: none !important;
 
-    transition: all 0.2s ease-in-out;
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
+
+/* Cart hover */
 .cart-btn:hover {
     background-color: #000000;
     border-color: #000000;
+
     color: #ffffff !important;
-    transform: translateY(-1px);
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
+
+/* Cart icon */
 .cart-icon {
     font-size: 18px;
     color: #ffffff;
 }
 
+
+/* Cart text */
 .cart-text {
     font-size: 16px;
     font-weight: 700;
 }
 
+
 /* Cart quantity */
 .cart-badge {
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
 
@@ -94,35 +249,114 @@ header .navbar {
     padding: 2px 7px;
 
     background-color: #ffc107;
+
     color: #212529;
 
     border-radius: 50%;
 
     font-size: 13px;
     font-weight: 700;
+
     line-height: 1;
 }
 
-/* Smaller logo on mobile screens */
-@media (max-width: 991.98px) {
-    .site-logo {
-        width: 70px;
-        height: 60px;
-    }
-    .navbar-brand {
-        margin-right: 10px;
-    }
 
-    .cart-container {
-        margin-top: 15px;
-        margin-left: 0;
-    }
+/* =========================================
+   NEW CART BUTTON SUPPORT
+   ========================================= */
 
-    .cart-btn {
-        width: 100%;
-        max-width: 150px;
-    }
+.cart-button {
+    display: flex !important;
+
+    align-items: center;
+
+    gap: 8px;
+
+    background-color: #20252a;
+
+    border-radius: 8px;
+
+    padding: 12px 16px !important;
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
 }
+
+
+/* Remove navigation underline from Cart */
+.cart-button::after {
+    display: none !important;
+}
+
+
+.cart-button:hover {
+    background-color: #343a40;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+.cart-count {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 30px;
+    height: 30px;
+
+    padding: 0 8px;
+
+    background-color: #ffc107;
+
+    color: #212529;
+
+    border-radius: 50%;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   DROPDOWN MENU
+   ========================================= */
+
+.custom-navbar .dropdown-menu {
+    margin-top: 8px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+
+.custom-navbar .dropdown-item {
+    padding: 10px 18px;
+
+    font-weight: 600;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.custom-navbar .dropdown-item:hover {
+    background-color: #ffc107;
+
+    color: #212529;
+}
+
+
+/* =========================================
+   MAIN CONTENT
+   ========================================= */
 
 main {
     margin-top: 0;
@@ -138,6 +372,11 @@ main {
     margin-top: 0;
 }
 
+
+/* =========================================
+   PRODUCTS
+   ========================================= */
+
 .card {
     height: 100%;
 }
@@ -146,6 +385,191 @@ main {
     height: 220px;
     object-fit: cover;
 }
+
+.product-title {
+    margin-bottom: 0.5rem;
+}
+
+.quantity-input {
+    max-width: 120px;
+}
+
+
+/* =========================================
+   PRODUCT PRICES
+   ========================================= */
+
+.product-price {
+    margin-top: 8px;
+    margin-bottom: 1rem;
+}
+
+.product-price del {
+    margin-right: 10px;
+    color: #212529;
+}
+
+.sale-price {
+    color: #b00020;
+    font-weight: bold;
+}
+
+.regular-price {
+    font-weight: bold;
+}
+
+
+/* =========================================
+   SALE LABEL
+   ========================================= */
+
+.sale-label {
+    display: inline-flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 6px;
+
+    margin-right: 15px;
+    margin-bottom: 10px;
+
+    color: #b00020;
+
+    font-weight: bold;
+}
+
+.sale-label i {
+    font-size: 0.85rem;
+}
+
+
+/* =========================================
+   BUTTONS
+   ========================================= */
+
+.btn-outline-dark {
+    border-width: 2px;
+}
+
+.btn-submit {
+    background-color: #28a745;
+
+    border-color: #000000;
+
+    color: #ffffff;
+
+    transition: all 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #218838;
+
+    border-color: #000000;
+
+    color: #ffffff;
+}
+
+.btn-submit:focus,
+.btn-submit.focus {
+    box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.5);
+}
+
+.btn-submit:active {
+    background-color: #1e7e34;
+
+    border-color: #000000;
+}
+
+
+/* =========================================
+   BADGES
+   ========================================= */
+
+.badge.badge-dark {
+    background-color: #212529 !important;
+    color: #ffffff !important;
+}
+
+
+/* =========================================
+   FORM CONTROLS
+   ========================================= */
+
+.form-control {
+    display: block;
+
+    width: 100%;
+    max-width: 100%;
+
+    padding: 0.375rem 0.75rem;
+
+    font-size: 1rem;
+    line-height: 1.5;
+
+    color: #495057;
+
+    background-color: #ffffff;
+
+    background-clip: padding-box;
+
+    border: 1px solid #ced4da;
+
+    border-radius: 0.25rem;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
+}
+
+
+/* =========================================
+   STAR RATINGS
+   ========================================= */
+
+.star-rating {
+    display: inline-block;
+    width: 100%;
+}
+
+.stars-container {
+    display: flex;
+
+    gap: 8px;
+
+    cursor: pointer;
+}
+
+.star {
+    font-size: 28px;
+
+    color: #ced4da;
+
+    transition: color 0.2s;
+
+    cursor: pointer;
+
+    font-style: normal;
+}
+
+.star.active {
+    color: #ffc107 !important;
+}
+
+.stars-container:hover .star {
+    color: #ffc107;
+}
+
+.stars-container:hover .star:hover ~ .star {
+    color: #ced4da;
+}
+
+
+/* =========================================
+   CONTACT PAGE
+   ========================================= */
 
 .contact-page {
     padding-bottom: 3rem;
@@ -190,149 +614,6 @@ main {
     margin-top: 0.5rem;
 }
 
-.btn-outline-dark {
-    border-width: 2px;
-}
-
-.btn-submit {
-    background-color: #28a745;
-    border-color: #000000;
-    color: #ffffff;
-    transition: all 0.3s;
-}
-
-.btn-submit:hover {
-    background-color: #218838;
-    border-color: #000000;
-    color: #ffffff;
-}
-
-.btn-submit:focus,
-.btn-submit.focus {
-    box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.5);
-}
-
-.btn-submit:active {
-    background-color: #1e7e34;
-    border-color: #000000;
-}
-
-.navbar,
-.navbar * {
-    font-family: Arial, sans-serif !important;
-}
-
-.navbar-light .navbar-nav .nav-link {
-    color: #212529 !important;
-    opacity: 1 !important;
-}
-
-.navbar-dark .navbar-nav .nav-link,
-.navbar-dark .navbar-brand {
-    color: #ffffff !important;
-}
-
-.badge.badge-dark {
-    background-color: #212529 !important;
-    color: #ffffff !important;
-}
-
-.form-control {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #ffffff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    box-sizing: border-box;
-    transition:
-        border-color 0.15s ease-in-out,
-        box-shadow 0.15s ease-in-out;
-}
-
-.star-rating {
-    display: inline-block;
-    width: 100%;
-}
-
-.stars-container {
-    display: flex;
-    gap: 8px;
-    cursor: pointer;
-}
-
-.star {
-    font-size: 28px;
-    color: #ced4da;
-    transition: color 0.2s;
-    cursor: pointer;
-    font-style: normal;
-}
-
-.star.active {
-    color: #ffc107 !important;
-}
-
-.stars-container:hover .star {
-    color: #ffc107;
-}
-
-.stars-container:hover .star:hover ~ .star {
-    color: #ced4da;
-}
-
-.sale-label {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    margin-right: 15px;
-    margin-bottom: 10px;
-    color: #b00020;
-    font-weight: bold;
-}
-
-.sale-label i {
-    font-size: 0.85rem;
-}
-
-.product-price {
-    margin-top: 8px;
-    margin-bottom: 1rem;
-}
-
-.product-price del {
-    margin-right: 10px;
-    color: #212529;
-}
-
-.sale-price {
-    color: #b00020;
-    font-weight: bold;
-}
-
-.regular-price {
-    font-weight: bold;
-}
-
-.product-title {
-    margin-bottom: 0.5rem;
-}
-
-.quantity-input {
-    max-width: 120px;
-}
-
-.col-md-6,
-.billing-info-section,
-.shipping-info-section {
-    overflow-x: visible;
-}
 
 /* =========================================
    FUTURE PAYMENT OPTIONS
@@ -349,18 +630,22 @@ main {
 
 .future-payment-card {
     height: 100%;
+
     padding: 25px 20px;
+
     text-align: center;
 
     background-color: #ffffff;
 
     border: 1px solid #dee2e6;
+
     border-radius: 8px;
 
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 
-    transition: transform 0.2s ease,
-                box-shadow 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .future-payment-card:hover {
@@ -371,6 +656,7 @@ main {
 
 .future-payment-icon {
     font-size: 42px;
+
     margin-bottom: 12px;
 
     color: #212529;
@@ -378,18 +664,22 @@ main {
 
 .future-payment-card h4 {
     margin-bottom: 12px;
+
     font-weight: 700;
 }
 
 .future-payment-card p {
     margin-top: 15px;
+
     margin-bottom: 0;
 
     color: #6c757d;
 }
 
 
-/* Coming Soon badge */
+/* =========================================
+   COMING SOON BADGE
+   ========================================= */
 
 .coming-soon-badge {
     display: inline-block;
@@ -397,11 +687,13 @@ main {
     padding: 5px 12px;
 
     background-color: #ffc107;
+
     color: #212529;
 
     border-radius: 20px;
 
     font-size: 0.85rem;
+
     font-weight: 700;
 }
 
@@ -423,11 +715,13 @@ main {
     background-color: #f8f9fa;
 
     border: 1px solid #dee2e6;
+
     border-radius: 8px;
 }
 
 .mobile-money-preview h4 {
     font-weight: 700;
+
     margin-bottom: 10px;
 }
 
@@ -435,6 +729,7 @@ main {
     display: flex;
 
     justify-content: center;
+
     flex-wrap: wrap;
 
     gap: 10px;
@@ -448,15 +743,162 @@ main {
     background-color: #ffffff;
 
     border: 1px solid #ced4da;
+
     border-radius: 20px;
 
     font-size: 0.9rem;
+
     font-weight: 600;
 }
 
 
 /* =========================================
-   RESPONSIVE PAYMENT OPTIONS
+   LOGIN FORM
+   ========================================= */
+
+.login-form {
+    margin-top: 50px;
+
+    margin-bottom: 50px;
+
+    padding: 30px;
+
+    background-color: #ffffff;
+
+    border: 1px solid #dee2e6;
+
+    border-radius: 8px;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.login-form h2 {
+    font-weight: bold;
+}
+
+.login-form .form-control {
+    width: 100%;
+}
+
+.login-form .btn {
+    margin-top: 10px;
+}
+
+
+/* =========================================
+   REGISTRATION FORM
+   ========================================= */
+
+.register-form-container {
+    max-width: 500px;
+
+    margin: 40px auto;
+
+    padding: 30px;
+}
+
+.register-form-container form {
+    width: 100%;
+}
+
+.register-form-container input,
+.register-form-container select {
+    width: 100%;
+
+    box-sizing: border-box;
+}
+
+.register-form-container .helptext {
+    display: block;
+
+    font-size: 0.85rem;
+
+    color: #6c757d;
+
+    margin-top: 5px;
+}
+
+.register-form-container ul {
+    padding-left: 20px;
+}
+
+.register-form-container .btn {
+    min-width: 120px;
+}
+
+
+/* =========================================
+   COLUMN OVERFLOW
+   ========================================= */
+
+.col-md-6,
+.billing-info-section,
+.shipping-info-section {
+    overflow-x: visible;
+}
+
+
+/* =========================================
+   MOBILE NAVBAR
+   ========================================= */
+
+@media (max-width: 991.98px) {
+
+    header .navbar {
+        min-height: 75px;
+
+        padding: 10px 15px;
+    }
+
+    .navbar-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .site-logo,
+    .navbar-logo {
+        width: 65px;
+        height: 60px;
+    }
+
+    .navbar-brand {
+        margin-right: 10px;
+    }
+
+    .brand-name {
+        font-size: 1.3rem;
+    }
+
+    .custom-navbar .navbar-nav .nav-link {
+        margin-top: 3px;
+        margin-bottom: 3px;
+
+        padding: 10px !important;
+    }
+
+    .cart-container {
+        margin-top: 15px;
+        margin-left: 0;
+    }
+
+    .cart-btn {
+        width: 100%;
+        max-width: 150px;
+    }
+
+    .cart-item {
+        margin-left: 0 !important;
+        margin-top: 8px;
+    }
+
+    .cart-button {
+        width: fit-content;
+    }
+}
+
+
+/* =========================================
+   SMALL MOBILE DEVICES
    ========================================= */
 
 @media (max-width: 767.98px) {
@@ -482,65 +924,4 @@ main {
         width: 100%;
         max-width: 250px;
     }
-}
-
-/* ==============================
-   Login Form
-   ============================== */
-
-.login-form {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    padding: 30px;
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.login-form h2 {
-    font-weight: bold;
-}
-
-.login-form .form-control {
-    width: 100%;
-}
-
-.login-form .btn {
-    margin-top: 10px;
-}
-
-/* =========================================
-   Registration Form
-   ========================================= */
-
-.register-form-container {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 30px;
-}
-
-.register-form-container form {
-    width: 100%;
-}
-
-.register-form-container input,
-.register-form-container select {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.register-form-container .helptext {
-    display: block;
-    font-size: 0.85rem;
-    color: #6c757d;
-    margin-top: 5px;
-}
-
-.register-form-container ul {
-    padding-left: 20px;
-}
-
-.register-form-container .btn {
-    min-width: 120px;
 }
