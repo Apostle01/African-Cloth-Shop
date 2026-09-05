@@ -8,10 +8,6 @@ body {
     background-color: #ffffff;
 }
 
-/* =========================================
-   HEADER
-   ========================================= */
-
 header {
     margin-top: 0;
     margin-bottom: 1rem;
@@ -20,11 +16,6 @@ header {
 header.bg-dark {
     background-color: #212529 !important;
 }
-
-
-/* =========================================
-   KENTE HAVEN NAVBAR
-   ========================================= */
 
 /* Larger navbar */
 header .navbar {
@@ -50,11 +41,6 @@ header .navbar {
     margin-right: 25px;
 }
 
-
-/* =========================================
-   NAVBAR LOGO
-   ========================================= */
-
 .site-logo,
 .navbar-logo {
     width: 78px;
@@ -76,11 +62,6 @@ header .navbar {
     box-shadow: 0 0 18px rgba(255, 193, 7, 0.8);
 }
 
-
-/* =========================================
-   BRAND NAME
-   ========================================= */
-
 .brand-name {
     color: #ffffff !important;
     font-size: 1.6rem;
@@ -92,11 +73,6 @@ header .navbar {
 .brand-name:hover {
     color: #ffc107 !important;
 }
-
-
-/* =========================================
-   NAVIGATION
-   ========================================= */
 
 .navbar,
 .navbar * {
@@ -156,20 +132,10 @@ header .navbar {
     transform: scaleX(1);
 }
 
-
-/* =========================================
-   LIGHT NAVBAR SUPPORT
-   ========================================= */
-
 .navbar-light .navbar-nav .nav-link {
     color: #212529 !important;
     opacity: 1 !important;
 }
-
-
-/* =========================================
-   CART
-   ========================================= */
 
 .cart-container {
     display: flex;
@@ -260,11 +226,6 @@ header .navbar {
     line-height: 1;
 }
 
-
-/* =========================================
-   NEW CART BUTTON SUPPORT
-   ========================================= */
-
 .cart-button {
     display: flex !important;
 
@@ -320,11 +281,6 @@ header .navbar {
     font-weight: 700;
 }
 
-
-/* =========================================
-   DROPDOWN MENU
-   ========================================= */
-
 .custom-navbar .dropdown-menu {
     margin-top: 8px;
 
@@ -353,11 +309,6 @@ header .navbar {
     color: #212529;
 }
 
-
-/* =========================================
-   MAIN CONTENT
-   ========================================= */
-
 main {
     margin-top: 0;
     padding-top: 0;
@@ -371,11 +322,6 @@ main {
 .product-section .row {
     margin-top: 0;
 }
-
-
-/* =========================================
-   PRODUCTS
-   ========================================= */
 
 .card {
     height: 100%;
@@ -393,11 +339,6 @@ main {
 .quantity-input {
     max-width: 120px;
 }
-
-
-/* =========================================
-   PRODUCT PRICES
-   ========================================= */
 
 .product-price {
     margin-top: 8px;
@@ -418,11 +359,6 @@ main {
     font-weight: bold;
 }
 
-
-/* =========================================
-   SALE LABEL
-   ========================================= */
-
 .sale-label {
     display: inline-flex;
 
@@ -442,11 +378,6 @@ main {
 .sale-label i {
     font-size: 0.85rem;
 }
-
-
-/* =========================================
-   BUTTONS
-   ========================================= */
 
 .btn-outline-dark {
     border-width: 2px;
@@ -481,20 +412,10 @@ main {
     border-color: #000000;
 }
 
-
-/* =========================================
-   BADGES
-   ========================================= */
-
 .badge.badge-dark {
     background-color: #212529 !important;
     color: #ffffff !important;
 }
-
-
-/* =========================================
-   FORM CONTROLS
-   ========================================= */
 
 .form-control {
     display: block;
@@ -523,11 +444,6 @@ main {
         border-color 0.15s ease-in-out,
         box-shadow 0.15s ease-in-out;
 }
-
-
-/* =========================================
-   STAR RATINGS
-   ========================================= */
 
 .star-rating {
     display: inline-block;
@@ -565,11 +481,6 @@ main {
 .stars-container:hover .star:hover ~ .star {
     color: #ced4da;
 }
-
-
-/* =========================================
-   CONTACT PAGE
-   ========================================= */
 
 .contact-page {
     padding-bottom: 3rem;
@@ -613,11 +524,6 @@ main {
 .contact-form .btn {
     margin-top: 0.5rem;
 }
-
-
-/* =========================================
-   FUTURE PAYMENT OPTIONS
-   ========================================= */
 
 .future-payment-options {
     padding: 25px 0 40px;
@@ -676,11 +582,6 @@ main {
     color: #6c757d;
 }
 
-
-/* =========================================
-   COMING SOON BADGE
-   ========================================= */
-
 .coming-soon-badge {
     display: inline-block;
 
@@ -696,11 +597,6 @@ main {
 
     font-weight: 700;
 }
-
-
-/* =========================================
-   MOBILE MONEY PREVIEW
-   ========================================= */
 
 .mobile-money-preview {
     max-width: 800px;
@@ -751,11 +647,6 @@ main {
     font-weight: 600;
 }
 
-
-/* =========================================
-   LOGIN FORM
-   ========================================= */
-
 .login-form {
     margin-top: 50px;
 
@@ -783,11 +674,6 @@ main {
 .login-form .btn {
     margin-top: 10px;
 }
-
-
-/* =========================================
-   REGISTRATION FORM
-   ========================================= */
 
 .register-form-container {
     max-width: 500px;
@@ -826,21 +712,11 @@ main {
     min-width: 120px;
 }
 
-
-/* =========================================
-   COLUMN OVERFLOW
-   ========================================= */
-
 .col-md-6,
 .billing-info-section,
 .shipping-info-section {
     overflow-x: visible;
 }
-
-
-/* =========================================
-   MOBILE NAVBAR
-   ========================================= */
 
 @media (max-width: 991.98px) {
 
@@ -895,11 +771,6 @@ main {
         width: fit-content;
     }
 }
-
-
-/* =========================================
-   SMALL MOBILE DEVICES
-   ========================================= */
 
 @media (max-width: 767.98px) {
 

@@ -161,7 +161,7 @@ def update_password(request):
                 return redirect('home')
             else:
                 messages.error(request, "Please correct the errors below.")
-                return render(request, "update_password.html", {'form': form, 'shipping_form':shipping_form})
+                return render(request, "update_password.html", {'form': form, 'shipping_form':ShippingForm})
 
         # ----------------------
         # If GET request
